@@ -1,12 +1,19 @@
 {
-  "name": "typescript-nextjs-starter",
-  "description": "A TypeScript starter for Next.js that includes all you need to build amazing projects",
+  "name": "venogwe",
+  "description": "A TypeScript starter for Next.js that includes all you need to build an amazing portfolio",
   "version": "1.0.0",
   "private": true,
-  "author": "João Pedro Schmitz <hey@joaopedro.dev> (@jpedroschmitz)",
+  "author": "Victor Enogwe <hello@victorenogwe.me> (@iykyvic)",
   "license": "MIT",
+  "homepage": "https://victorenogwe.me",
+  "bugs": "https://github.com/victor-enogwe/venogwe.git/issues",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/victor-enogwe/venogwe.git"
+  },
   "keywords": [
     "nextjs",
+    "portfolio",
     "starter",
     "typescript"
   ],
@@ -18,6 +25,10 @@
     "lint": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\"",
     "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --write",
     "postinstall": "husky install",
+    "cypress": "cypress open",
+    "cypress:headless": "cypress run",
+    "e2e": "start-server-and-test start http://localhost:3000 cypress",
+    "e2e:headless": "start-server-and-test start http://localhost:3000 cypress:headless",
     "commit": "cz"
   },
   "lint-staged": {
@@ -27,19 +38,29 @@
     ]
   },
   "dependencies": {
+    "@material-ui/core": "4.12.3",
+    "@material-ui/icons": "4.11.2",
+    "classnames": "2.3.1",
     "next": "11.1.2",
+    "next-intl": "2.0.1",
+    "next-pwa": "5.3.1",
+    "next-seo": "4.26.0",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
     "@commitlint/cli": "13.1.0",
     "@commitlint/config-conventional": "13.1.0",
+    "@testing-library/jest-dom": "5.14.1",
+    "@testing-library/react": "12.1.0",
     "@types/node": "14.17.14",
     "@types/react": "17.0.20",
     "@types/react-dom": "17.0.9",
     "@typescript-eslint/eslint-plugin": "4.30.0",
     "@typescript-eslint/parser": "4.30.0",
+    "babel-jest": "27.1.1",
     "commitizen": "4.2.4",
+    "cypress": "8.3.1",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "7.32.0",
     "eslint-config-airbnb": "18.2.1",
@@ -52,8 +73,12 @@
     "eslint-plugin-react": "7.24.0",
     "eslint-plugin-react-hooks": "4.2.0",
     "husky": "7.0.2",
+    "identity-obj-proxy": "3.0.0",
+    "jest": "27.1.1",
     "lint-staged": "11.1.2",
     "prettier": "2.3.2",
+    "react-test-renderer": "17.0.2",
+    "sass": "1.39.2",
     "typescript": "4.4.2"
   },
   "config": {

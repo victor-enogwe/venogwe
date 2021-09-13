@@ -1,24 +1,12 @@
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/26466516/118417547-e9409d00-b68a-11eb-8162-6afccf9288a9.png" alt="Next.js TypeScript Starter">
-</p>
+# Victor Enogwe
 
-<p align="center">
-  <img src="https://img.shields.io/static/v1?label=PRs&message=welcome&style=for-the-badge&color=5e17eb&labelColor=000000" alt="PRs welcome!" />
-
-  <img alt="License" src="https://img.shields.io/github/license/jpedroschmitz/typescript-nextjs-starter?style=for-the-badge&color=5e17eb&labelColor=000000">
-
-  <a href="https://twitter.com/intent/follow?screen_name=jpedroschmitz">
-    <img src="https://img.shields.io/twitter/follow/jpedroschmitz?style=for-the-badge&color=5e17eb&labelColor=000000" alt="Follow @jpedroschmitz" />
-  </a>
-</p>
-
-<br>
-
-A TypeScript starter for Next.js that includes all you need to build amazing projects 🔥
+A TypeScript starter for Next.js that includes all you need to build an amazing portfolio 🔥
 
 - 📏 **ESLint** — Pluggable JavaScript linter
 - 💖 **Prettier** - Opinionated Code Formatter
 - 🐶 **Husky** — Use git hooks with ease
+- PWA
+- SEO
 - 📄 **Commitizen** - Conventional commit messages CLI
 - 🚓 **Commitlint** - Lint commit messages
 - 🖌 **Renovate** - Dependency update tool
@@ -28,13 +16,7 @@ A TypeScript starter for Next.js that includes all you need to build amazing pro
 
 ## 🚀 Getting started
 
-The best way to start with this template is using `create-next-app`.
-
-```
-npx create-next-app ts-next -e https://github.com/jpedroschmitz/typescript-nextjs-starter
-```
-
-If you prefer you can clone this repository and run the following commands inside the project folder:
+Clone this repository and run the following commands inside the project folder:
 
 1. `npm install` or `yarn`;
 2. `yarn dev`;
@@ -56,4 +38,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ---
 
-Made with ♥ by João Pedro Schmitz
+Made with ♥ by Victor Enogwe

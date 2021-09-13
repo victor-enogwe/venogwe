@@ -1,23 +1,19 @@
-import Head from 'next/head';
-import Image from 'next/image';
+import styles from '@/styles/index.module.scss';
+import classNames from 'classnames';
+import { getStaticProps } from '@/utils/functions';
+// import { useTranslations } from 'next-intl';
 
-import styles from '@/styles/Home.module.css';
+export { getStaticProps };
 
-export default function Home() {
+export default function Index(): JSX.Element {
+  // const translations = useTranslations(`Index`);
+  const mainClasses = classNames({ [styles.container]: true });
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>TypeScript starter for Next.js</title>
-        <meta
-          name="description"
-          content="TypeScript starter for Next.js that includes all you need to build amazing apps"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
+    <>
+      <main className={mainClasses}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to <a href="https://nextjs.org">Enogwe Victor!</a>
         </h1>
 
         <p className={styles.description}>
@@ -57,19 +53,6 @@ export default function Home() {
           </a>
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=typescript-nextjs-starter"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{` `}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
-    </div>
+    </>
   );
 }
