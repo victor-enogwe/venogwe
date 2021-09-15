@@ -1,0 +1,29 @@
+@import 'variables';
+
+@mixin query($displays...){
+  @for $i from 1 through length($displays) {
+    @each $key, $value in $bp{
+      @if (nth($displays, $i) == $key){
+        @media (max-width: $value){@content;}
+      }
+    }
+  }
+}
+
+@mixin word-wrap() {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+@mixin ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

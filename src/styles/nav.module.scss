@@ -1,0 +1,36 @@
+@use "sass:math";
+@import 'variables';
+
+.menu-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 30px;
+  margin-top: $padding - 1;
+  gap: math.div($gap, 5);
+  cursor: pointer;
+  transition: transform 330ms ease-out;
+  transform: translateY(-50%);
+}
+
+.line-menu {
+  background-color: #fff;
+  border-radius: 5px;
+  width: 100%;
+  height: 3px;
+
+  &.half {
+    width: 50%;
+  }
+
+  &.start {
+    transform-origin: right;
+    transition: transform 330ms cubic-bezier(.54,-.81,.57,.57);
+  }
+
+  &.end {
+    align-self: flex-end;
+    transform-origin: left;
+    transition: transform 330ms cubic-bezier(.54,-.81,.57,.57);
+  }
+}

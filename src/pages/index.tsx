@@ -38,12 +38,12 @@ export default function Index({ title }: { title: string }): JSX.Element {
 
   return (
     <main className={mainClasses}>
-      {/* <div className="box column flex-start flex-basis-10 display-tablet-none display-mobile-none">
+      {/* <div className="box column flex-start flex-basis-10 display-tablet-none display-none-mobile">
         <button type="button">X</button>
       </div> */}
       <div className="box column flex-start">
-        <h2 className="title">
-          Victor Enogwe
+        <h2 className="flex column secondary_font">
+          <span>Victor Enogwe</span>
           <span className="description">
             is a <mark>creative</mark> who loves to follow{` `}
             <mark>best practices</mark>, has an eye for <mark>quality</mark> and
@@ -58,10 +58,12 @@ export default function Index({ title }: { title: string }): JSX.Element {
         </Link>
       </div>
       <div className="box column flex-basis-60 flex-end">
-        <h3 className="highlight_color">
-          <strong>Let&apos;s Connect</strong>
-        </h3>
-        <p className="description">Your can reach me via:</p>
+        <h4 className="flex column flex-end logo_text highlight_color primary_font">
+          <span>
+            <strong>Let&apos;s Connect</strong>
+          </span>
+          <span className="description">You can reach me via:</span>
+        </h4>
         <div className="flex">
           <Link href="/">
             <a>
@@ -94,7 +96,7 @@ export default function Index({ title }: { title: string }): JSX.Element {
           <PopupButton
             {...calendlySettings}
             url={process.env.NEXT_PUBLIC_CALENDLY_URL ?? ``}
-            text="Book A Meeting"
+            text="Meeting"
             className="button"
           />
         </div>

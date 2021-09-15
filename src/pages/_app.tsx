@@ -21,7 +21,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <>
       <div>
         <SkipNavLink />
-        <div className="flex row">
+        <div className="flex row header">
           <Header title={pageProps.title} translator={useTranslations} />
           <Nav ListStyle="ul" items={menuItems} />
         </div>

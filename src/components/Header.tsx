@@ -17,7 +17,7 @@ export function Header({ title }: HeaderProps): JSX.Element {
       />
       <Link href="/">
         <a>
-          <h1>
+          <h1 className="logo_text">
             <span>{title}</span>
             <span>
               <small>Senior Software Engineer</small>
