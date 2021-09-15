@@ -58,12 +58,12 @@ export default function Index({ title }: { title: string }): JSX.Element {
         </Link>
       </div>
       <div className="box column flex-basis-60 flex-end">
-        <h4 className="flex column flex-end logo_text highlight_color primary_font">
+        <h2 className="flex column flex-end logo_text highlight_color primary_font connect">
           <span>
             <strong>Let&apos;s Connect</strong>
           </span>
           <span className="description">You can reach me via:</span>
-        </h4>
+        </h2>
         <div className="flex">
           <Link href={process.env.NEXT_PUBLIC_LINKEDIN_URL ?? ``}>
             <a>

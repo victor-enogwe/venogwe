@@ -4,7 +4,7 @@ export const seoConfig: SEOConfig = {
   default: {
     title: `Victor Enogwe`,
     defaultTitle: `Victor Enogwe`,
-    description: ``,
+    description: `Senior Software Engineer - Typescript/Javascript/Php/Python`,
     canonical: `https://www.canonical.ie/`,
     openGraph: {
       type: `website`,

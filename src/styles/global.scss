@@ -253,6 +253,10 @@ mark {
         span {
           margin-bottom: 0;
         }
+
+        &.connect {
+          font-size: math.div($font_size * (6 - $i), 2);
+        }
       }
 
       @include query(mobile, tablet) {
