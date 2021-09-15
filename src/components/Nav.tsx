@@ -7,6 +7,9 @@ import { Fragment } from 'react';
 export function NavItems({ items }: { items: NavItem[] }) {
   return (
     <>
+      <button type="button" className="display-desktop-none">
+        X
+      </button>
       {items.map(
         ({ children = [], title, description = ``, url = `` }, index) => {
           const validURL = URL_REGEX.test(url);

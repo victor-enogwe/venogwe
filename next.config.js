@@ -14,7 +14,8 @@ module.exports = withPWA({
     register: true,
     skipWaiting: true,
     fallbacks: {
-      image: '',
+      image: 'https://via.placeholder.com/100x100?text=victorenogwe.com',
     },
   },
+  experimental: { optimizeCss: true, optimizeImages: true },
 });

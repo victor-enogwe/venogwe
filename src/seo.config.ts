@@ -2,6 +2,7 @@ import { SEOConfig } from '@/typings';
 
 export const seoConfig: SEOConfig = {
   default: {
+    title: `Victor Enogwe`,
     defaultTitle: `Victor Enogwe`,
     description: ``,
     canonical: `https://www.canonical.ie/`,

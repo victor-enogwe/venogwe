@@ -1,5 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { GetStaticPropsContext, GetStaticPropsResult } from 'next';
+import {
+  GetServerSidePropsContext,
+  GetServerSidePropsResult,
+  GetStaticPropsContext,
+  GetStaticPropsResult,
+} from 'next';
 import { IntlError, IntlErrorCode } from 'next-intl';
 
 export async function getStaticProps(
@@ -12,6 +17,25 @@ export async function getStaticProps(
       locale: locale ?? defaultLocale ?? process.env.NEXT_PUBLIC_DEFAULT_LOCALE,
       locales,
       title: process.env.NEXT_PUBLIC_SITE_NAME,
+    },
+  };
+}
+
+export async function getServerSideProps(
+  context: GetServerSidePropsContext,
+): Promise<GetServerSidePropsResult<unknown>> {
+  const { locale, defaultLocale, locales, res, resolvedUrl } = context;
+  res.setHeader(
+    `Cache-Control`,
+    `public, s-maxage=10, stale-while-revalidate=59`,
+  );
+
+  return {
+    props: {
+      locale: locale ?? defaultLocale ?? process.env.NEXT_PUBLIC_DEFAULT_LOCALE,
+      locales,
+      title: process.env.NEXT_PUBLIC_SITE_NAME,
+      resolvedUrl,
     },
   };
 }

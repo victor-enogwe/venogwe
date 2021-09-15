@@ -1,53 +1,77 @@
+@use "sass:math";
+@import 'variables';
+
 html,
 body {
+  display: flex;
+  justify-content: center;
   padding: 0;
   margin: 0;
-  color: #999;
-  font-size: 16px;
-  line-height: 30px;
-  background-color: #030303;
+  color: $shadow_color;
+  font-size: $font_size;
+  line-height: $line_height;
+  background-color: $bg_color;
   height: 100vh;
   overflow: hidden;
-  font-family: 'IBM Plex Mono',monospace, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  #__next {
-    height: 100vh;
+  // border: 1vh solid $alt_color;
+  font-family: $font_family;
+
+  .container {
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
+    max-width: 1140px;
+    height: 100vh;
+    gap: $gap math.div($gap, 2);
+    padding: $padding;
+  }
+}
+
+
+.block {
+  display: flex;
+  flex-direction: row;
+  gap: $gap math.div($gap, 2);
+  padding: math.div($padding, 2);
+  width: 100%;
+  @include query(mobile){
+    flex-direction: column;
+  }
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-basis: 100%;
+
+  &.widget {
+    border : 1px solid $alt_color;
   }
 }
 
 header, footer {
-  height: 90px;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-  }
+  width: 100%;
+  max-height: 45px;
 }
 
 footer {
-  height: 45px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 main {
-  max-height: calc(100vh - 135px);
-  width: 100vw;
-  overflow: scroll;
-  padding: 5rem 0;
-  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  max-height: calc(100vh - 135px);
+  width: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
+  flex: 1;
 }
 
 a {
@@ -64,4 +88,153 @@ a {
 img {
     vertical-align: middle;
     border-style: none;
+}
+
+button, .button {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  background-color: $text_color;
+  color: $bg_color;
+  height: 42px;
+  font-size: $font_size;
+  line-height: $line_height;
+  padding: 0 16px;
+  font-weight: 900;
+  border: 0;
+  outline: 0;
+  cursor:pointer;
+}
+
+.social-btn {
+  padding: 0 10px;
+  margin-right: 10px;
+}
+
+mark {
+  background-color: $alt_color;
+  color: $bg_color;
+
+  &::before {
+    content: " [highlight start] ";
+  }
+
+  &::after {
+    content: " [highlight end] ";
+  }
+
+  &::before,
+  &::after {
+    clip-path: inset(100%);
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+}
+
+.bg_color {
+  color: $bg_color;
+}
+
+.shadow_color {
+  color: $shadow_color;
+}
+
+.text_color {
+  color: $text_color;
+}
+
+.alt_color {
+  color: $alt_color;
+}
+
+.highlight_color {
+  color: $highlight_color;
+}
+
+.title  {
+  display: flex;
+  flex-direction: column;
+  font-size: $font_size * 5;
+  font-family: $secondary_font, serif;
+  margin-bottom: $line_height * 1.5;
+
+  span {
+    margin-top: $line_height * 1.5;
+  }
+
+  @include query(mobile, tablet){
+    font-size: $font_size * 2;
+    margin-bottom: math.div($line_height, 2);
+
+    span {
+      margin-top: math.div($line_height, 2);
+    }
+  }
+}
+
+.description {
+  font-family: $font_family;
+  color: $shadow_color;
+  font-size: $font_size;
+  line-height: $line_height;
+}
+
+.flex {
+  display: flex;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.flex-start {
+  align-content: flex-start;
+  align-items: flex-start;
+}
+
+.flex-end {
+  align-content: flex-end;
+  align-items: flex-end;
+
+  @include query(mobile){
+    align-content: flex-start;
+    align-items: flex-start;
+  }
+}
+
+@for $i from 1 through 10 {
+  @if $i < 6 {
+    h#{$i} {
+      display: block;
+      color: #fff;
+      font-weight: 500;
+      font-size: #{math.div(90, $i) } + 'px';
+      line-height: $line_height * ($i - 0.5);
+    }
+  }
+
+  .flex-basis-#{$i * 10} {
+    flex-basis: #{$i * 10} + '%';
+
+    @include query(mobile){
+      flex-basis: 100%;
+    }
+  }
+}
+
+@each $key, $value in $bp{
+  @media (max-width: $value){
+    .display-#{$key}-none {
+      display: none;
+      visibility: hidden;
+    }
+  }
 }

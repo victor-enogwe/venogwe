@@ -2,6 +2,7 @@ import { GetStaticPropsContext } from 'next';
 import { useTranslations } from 'next-intl';
 import { DefaultSeoProps, NextSeoProps } from 'next-seo';
 import { ReactNode } from 'react';
+import { PageSettings, Prefill, Utm } from 'react-calendly/typings/calendly';
 
 export interface LayoutProps {
   children?: ReactNode;
@@ -38,4 +39,10 @@ export interface HeaderProps {
 
 export interface FooterProps {
   translator: typeof useTranslations;
+}
+
+export interface CalendlySettings {
+  pageSettings?: PageSettings;
+  prefill?: Prefill;
+  utm?: Utm;
 }

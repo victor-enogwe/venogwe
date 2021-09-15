@@ -1,58 +1,104 @@
-import styles from '@/styles/index.module.scss';
-import classNames from 'classnames';
+import { CalendlySettings } from '@/typings';
 import { getStaticProps } from '@/utils/functions';
+import classNames from 'classnames';
+import Image from 'next/image';
+import Link from 'next/link';
+import { PopupButton } from 'react-calendly';
+import linkedIn from '../../public/linkedIn.svg';
+import twitter from '../../public/twitter.svg';
 // import { useTranslations } from 'next-intl';
 
 export { getStaticProps };
 
-export default function Index(): JSX.Element {
+export default function Index({ title }: { title: string }): JSX.Element {
   // const translations = useTranslations(`Index`);
-  const mainClasses = classNames({ [styles.container]: true });
+  const mainClasses = classNames({ block: true });
+  const calendlySettings: CalendlySettings = {
+    pageSettings: {
+      backgroundColor: `#030303`,
+      primaryColor: `#999`,
+      textColor: `#fff`,
+    },
+    prefill: {
+      customAnswers: {
+        a1: `a1`,
+        a2: `a2`,
+        a3: `a3`,
+        a4: `a4`,
+        a5: `a5`,
+        a6: `a6`,
+        a7: `a7`,
+        a8: `a8`,
+        a9: `a9`,
+        a10: `a10`,
+      },
+      date: new Date(Date.now() + 86400000),
+    },
+  };
 
   return (
-    <>
-      <main className={mainClasses}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Enogwe Victor!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{` `}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <p className={styles.description}>This is not an official starter!</p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
+    <main className={mainClasses}>
+      {/* <div className="box column flex-start flex-basis-10 display-tablet-none display-mobile-none">
+        <button type="button">X</button>
+      </div> */}
+      <div className="box column flex-start">
+        <h2 className="title">
+          Victor Enogwe
+          <span className="description">
+            is a <mark>creative</mark> who loves to follow{` `}
+            <mark>best practices</mark>, has an eye for <mark>quality</mark> and
+            a knack for developing and maintaining&nbsp;
+            <mark>scalable</mark> web applications.
+          </span>
+        </h2>
+        <Link href="/">
+          <a>
+            <button type="button">View Resume</button>
           </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=typescript-nextjs-starter"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        </Link>
+      </div>
+      <div className="box column flex-basis-60 flex-end">
+        <h3 className="highlight_color">
+          <strong>Let&apos;s Connect</strong>
+        </h3>
+        <p className="description">Your can reach me via:</p>
+        <div className="flex">
+          <Link href="/">
+            <a>
+              <button type="button" className="social-btn">
+                <Image
+                  className="social-btn"
+                  priority
+                  src={linkedIn}
+                  alt={`view LinkedIn profile of ${title}`}
+                  width={45}
+                  height={45}
+                />
+              </button>
+            </a>
+          </Link>
+          <Link href="/">
+            <a>
+              <button type="button" className="social-btn">
+                <Image
+                  className="social-btn"
+                  priority
+                  src={twitter}
+                  alt={`view Twitter profile of ${title}`}
+                  width={45}
+                  height={45}
+                />
+              </button>
+            </a>
+          </Link>
+          <PopupButton
+            {...calendlySettings}
+            url={process.env.NEXT_PUBLIC_CALENDLY_URL ?? ``}
+            text="Book A Meeting"
+            className="button"
+          />
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 }

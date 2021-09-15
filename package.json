@@ -40,12 +40,14 @@
   "dependencies": {
     "@material-ui/core": "4.12.3",
     "@material-ui/icons": "4.11.2",
+    "@reach/skip-nav": "0.16.0",
     "classnames": "2.3.1",
     "next": "11.1.2",
     "next-intl": "2.0.1",
     "next-pwa": "5.3.1",
     "next-seo": "4.26.0",
     "react": "17.0.2",
+    "react-calendly": "2.2.1",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
@@ -60,6 +62,7 @@
     "@typescript-eslint/parser": "4.30.0",
     "babel-jest": "27.1.1",
     "commitizen": "4.2.4",
+    "critters": "0.0.10",
     "cypress": "8.3.1",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "7.32.0",

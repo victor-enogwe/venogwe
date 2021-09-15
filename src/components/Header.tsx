@@ -1,16 +1,30 @@
-import { HeaderProps, NavItem } from '@/typings';
-import { Nav } from './Nav';
-import { Logo } from './Logo';
-import { Social } from './Social';
+import { HeaderProps } from '@/typings';
+import Image from 'next/image';
+import styles from '@/styles/header.module.scss';
+import Link from 'next/link';
+import profilePic from '../../public/icon.png';
 
 export function Header({ title }: HeaderProps): JSX.Element {
-  const menuItems: NavItem[] = [{ title: `about`, description: `about me` }];
-
   return (
-    <header>
-      <Logo title={title} />
-      <Nav ListStyle="ul" items={menuItems} />
-      <Social />
+    <header id={styles.header_main}>
+      <Image
+        className={styles.logo_img}
+        priority
+        src={profilePic}
+        alt={`profile picture of ${title}`}
+        width={45}
+        height={45}
+      />
+      <Link href="/">
+        <a>
+          <h1>
+            <span>{title}</span>
+            <span>
+              <small>Senior Software Engineer</small>
+            </span>
+          </h1>
+        </a>
+      </Link>
     </header>
   );
 }
