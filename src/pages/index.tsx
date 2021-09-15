@@ -65,7 +65,7 @@ export default function Index({ title }: { title: string }): JSX.Element {
           <span className="description">You can reach me via:</span>
         </h4>
         <div className="flex">
-          <Link href="/">
+          <Link href={process.env.NEXT_PUBLIC_LINKEDIN_URL ?? ``}>
             <a>
               <button type="button" className="social-btn">
                 <Image
@@ -79,7 +79,9 @@ export default function Index({ title }: { title: string }): JSX.Element {
               </button>
             </a>
           </Link>
-          <Link href="/">
+          <Link
+            href={`https://twitter.com/${process.env.NEXT_PUBLIC_TWITTER_USERNAME}`}
+          >
             <a>
               <button type="button" className="social-btn">
                 <Image
