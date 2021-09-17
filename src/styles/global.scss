@@ -34,7 +34,7 @@ body {
   display: flex;
   flex-direction: row;
   gap: $gap math.div($gap, 2);
-  padding: math.div($padding, 2);
+  // padding: math.div($padding, 2);
   width: 100%;
   @include query(mobile){
     flex-direction: column;

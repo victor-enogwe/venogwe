@@ -20,18 +20,7 @@ export default function Index({ title }: { title: string }): JSX.Element {
       textColor: `#fff`,
     },
     prefill: {
-      customAnswers: {
-        a1: `a1`,
-        a2: `a2`,
-        a3: `a3`,
-        a4: `a4`,
-        a5: `a5`,
-        a6: `a6`,
-        a7: `a7`,
-        a8: `a8`,
-        a9: `a9`,
-        a10: `a10`,
-      },
+      customAnswers: {},
       date: new Date(Date.now() + 86400000),
     },
   };

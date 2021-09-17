@@ -1,0 +1,40 @@
+@import 'variables';
+
+.table {
+  width: 100%;
+
+  thead {
+    th {
+      text-transform: uppercase;
+      text-align: center;
+      padding: 10px;
+      color: $highlight_color;
+      border: 1px solid $shadow_color;
+    }
+  }
+  tbody {
+    tr {
+      border-bottom: 1px solid $shadow_color;
+      color: $text_color;
+      td {
+        padding: 10px;
+        border: 1px solid $shadow_color;
+      }
+      th {
+        padding-left: 10px;
+        border: 1px solid $shadow_color;
+      }
+    }
+  }
+  tfoot {
+    color: $highlight_color;
+    font-style: italic;
+    border-bottom: 2px solid $highlight_color;
+    tr {
+      td {
+        padding: 10px;
+        border: 1px solid $shadow_color;
+      }
+    }
+  }
+}
