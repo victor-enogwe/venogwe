@@ -1,5 +1,5 @@
 import { HtmlContext } from 'next/dist/shared/lib/utils';
-import ThemeProvider from 'react-bootstrap/ThemeProvider';
+// import ThemeProvider from 'react-bootstrap/ThemeProvider';
 import { BODY_RENDER_TARGET } from 'next/dist/shared/lib/constants';
 import Document, { Html, Head, NextScript } from 'next/document';
 import { useContext } from 'react';
@@ -30,9 +30,9 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
-        <ThemeProvider dir={process.env.NEXT_PUBLIC_THEME_DIRECTION}>
-          <Main />
-        </ThemeProvider>
+        {/* <ThemeProvider dir={process.env.NEXT_PUBLIC_THEME_DIRECTION}> */}
+        <Main />
+        {/* </ThemeProvider> */}
         <NextScript />
       </Html>
     );
