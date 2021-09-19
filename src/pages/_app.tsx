@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-import React from 'react';
+import React, { useState } from 'react';
 import { AppProps } from 'next/app';
 import { NextIntlProvider, useTranslations } from 'next-intl';
 import { NextSeo } from 'next-seo';
@@ -11,24 +11,35 @@ import { Footer } from '@/components/Footer';
 import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
 import '@reach/skip-nav/styles.css';
 import { NavItem } from '@/typings';
-import { Nav } from '@/components/Nav';
+import { NavMenu } from '@/components/Nav';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   // eslint-disable-next-line import/no-dynamic-require
   const messages = require(`@/i18n/${pageProps.locale ?? `en-US`}.json`);
-  const menuItems: NavItem[] = [];
+  const menuItems: NavItem[] = [
+    { title: `Home` },
+    { title: `About` },
+    { title: `Blog` },
+  ];
+  const [toggleNav, setToggleNav] = useState(false);
   const Wrapper = () => (
     <>
-      <div>
-        <SkipNavLink />
-        <div className="flex row header">
-          <Header title={pageProps.title} translator={useTranslations} />
-          <Nav ListStyle="ul" items={menuItems} />
-        </div>
-        <SkipNavContent />
-      </div>
+      <SkipNavLink />
+      <Header
+        title={pageProps.title}
+        toggleNav={toggleNav}
+        translator={useTranslations}
+        setToggleNav={setToggleNav}
+      />
+      <NavMenu
+        title={pageProps.title}
+        items={menuItems}
+        toggleNav={toggleNav}
+        setToggleNav={setToggleNav}
+      />
+      <SkipNavContent />
       <Component {...pageProps} translator={useTranslations} />
-      <Footer translator={useTranslations} />
+      <Footer />
     </>
   );
 

@@ -7,6 +7,8 @@ A TypeScript starter for Next.js that includes all you need to build an amazing 
 - 🐶 **Husky** — Use git hooks with ease
 - PWA
 - SEO
+- Bootstrap
+- Coolors
 - 📄 **Commitizen** - Conventional commit messages CLI
 - 🚓 **Commitlint** - Lint commit messages
 - 🖌 **Renovate** - Dependency update tool

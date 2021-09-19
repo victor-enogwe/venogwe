@@ -1,79 +1,112 @@
 /* eslint-disable react/no-array-index-key */
-import { NavMenu, NavItem } from '@/typings';
-import Link from 'next/link';
-import { URL_REGEX } from '@/utils/constants';
-import { Fragment } from 'react';
-import classNames from 'classnames';
-import styles from '@/styles/nav.module.scss';
+import { NavItem, NavMenuProps } from '@/typings';
+import React from 'react';
+import Offcanvas from 'react-bootstrap/OffCanvas';
+import Navbar from 'react-bootstrap/NavBar';
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Container from 'react-bootstrap/Container';
+import CloseButton from 'react-bootstrap/CloseButton';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+import { Head } from './Header';
 
-export function NavItems({ items }: { items: NavItem[] }) {
+export function NavItems({
+  items,
+  parent = true,
+}: {
+  items: NavItem[];
+  parent: boolean;
+}) {
+  const Wrapper = parent ? Nav.Item : NavDropdown.Item;
   return (
     <>
       {items.map(
-        ({ children = [], title, description = ``, url = `` }, index) => {
-          const validURL = URL_REGEX.test(url);
-          const LinkWrapper = validURL
-            ? Link.bind(null, { href: url })
-            : Fragment;
-          const LinkWrap = validURL ? `a` : Fragment;
-
-          return (
-            <li key={`${title}-${index}`}>
-              <LinkWrapper>
-                <LinkWrap>
-                  {title}
-                  {description.length > 0 ? (
-                    <small>{description}</small>
-                  ) : (
-                    <></>
-                  )}
-                  {children.length > 0 ? <NavItems items={children} /> : <></>}
-                </LinkWrap>
-              </LinkWrapper>
-            </li>
-          );
-        },
+        ({ children = [], title, description = ``, url = `` }, index) => (
+          <>
+            <Wrapper
+              as="li"
+              key={`${title}-${index}`}
+              eventKey={`${title.replace(/\s/g, ``)}-${index}-item`}
+            >
+              <Nav.Link
+                className="d-flex flex-column"
+                title={title}
+                href={url ?? `#`}
+                eventKey={`${title.replace(/\s/g, ``)}-${index}-link`}
+              >
+                {title}
+                {description.length > 0 ? <small>{description}</small> : <></>}
+                {children.length > 0 ? (
+                  <NavDropdown title={title}>
+                    <NavItems items={children} parent={false} />
+                  </NavDropdown>
+                ) : (
+                  <></>
+                )}
+              </Nav.Link>
+            </Wrapper>
+            {!parent && children.length !== index - 1 && (
+              <NavDropdown.Divider />
+            )}
+          </>
+        ),
       )}
     </>
   );
 }
 
-export function Nav({ items, ListStyle = `ul` }: NavMenu): JSX.Element {
+export function NavMenu({
+  title,
+  items,
+  toggleNav = false,
+  setToggleNav,
+}: NavMenuProps): JSX.Element {
   return (
-    <nav
-      className="flex flex-center row"
-      aria-label="Navigation Dropdown Menu"
-      role="navigation"
+    <Offcanvas
+      show={toggleNav}
+      backdrop={false}
+      aria-labelledby="navigation"
+      placement="top"
+      className="bg-dark"
     >
-      <ListStyle>
-        <NavItems items={items} />
-      </ListStyle>
-
-      <button
-        type="button"
-        className={classNames({ 'nav-btn': true })}
-        aria-label="Dropdown Navigation Button"
-        aria-expanded="false"
-      >
-        <span className="display-none closed">Open</span>
-        <div className={classNames({ [styles[`menu-btn`]]: true })}>
-          <div
-            className={classNames({
-              [styles[`line-menu`]]: true,
-              [styles.half]: true,
-              [styles.start]: true,
-            })}
+      <Offcanvas.Header>
+        <Container>
+          <Navbar bg="dark" variant="dark">
+            <Container fluid className="flex-column flex-sm-row">
+              <Navbar.Brand>
+                <Head title={title} />
+              </Navbar.Brand>
+              <Navbar.Toggle
+                aria-controls="basic-navbar-nav"
+                onClick={() => setToggleNav(!toggleNav)}
+              />
+              <Navbar.Collapse className="justify-content-sm-end me-sm-4">
+                <Nav
+                  fill
+                  justify
+                  navbarScroll
+                  as="ul"
+                  className="flex-column flex-sm-row"
+                >
+                  <NavItems items={items} parent />
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+        </Container>
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip>close navigation</Tooltip>}
+        >
+          <CloseButton
+            variant="white"
+            className="btn position-absolute"
+            aria-label="close navigation"
+            onClick={() => setToggleNav(!toggleNav)}
           />
-          <div className={styles[`line-menu`]} />
-          <div
-            className={classNames({
-              [styles[`line-menu`]]: true,
-              [styles.half]: true,
-              [styles.end]: true,
-            })}
-          />
-        </div>
-      </button>
-    </nav>
+        </OverlayTrigger>
+      </Offcanvas.Header>
+    </Offcanvas>
   );
 }

@@ -1,11 +1,8 @@
-import styles from '@/styles/index.module.scss';
-import { FooterProps } from '@/typings';
-
-export function Footer(props: FooterProps): JSX.Element {
+export function Footer(): JSX.Element {
   const date = new Date();
   return (
-    <footer className={styles.footer}>
-      &copy; {date.getFullYear().toString()}
+    <footer className="d-flex flex-row align-items-center">
+      &copy; {date.getFullYear().toString()} (dev in progress)
     </footer>
   );
 }

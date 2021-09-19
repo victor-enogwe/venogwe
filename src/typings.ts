@@ -27,14 +27,21 @@ export interface NavItem {
   children?: NavItem[];
 }
 
-export interface NavMenu {
-  items: NavItem[];
-  ListStyle: 'ul' | 'ol';
+export interface NavToggleProps {
+  toggleNav: boolean;
+  setToggleNav: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export interface HeaderProps {
+export interface NavMenuProps extends NavToggleProps {
+  title: string;
+  items: NavItem[];
+}
+
+export interface HeaderProps extends NavToggleProps {
   title: string;
   translator: typeof useTranslations;
+  toggleNav: boolean;
+  setToggleNav: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface FooterProps {

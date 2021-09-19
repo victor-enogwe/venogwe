@@ -1,19 +1,36 @@
 $gap : 4vh;
 $padding : 4vh;
-$bg_color: #030303;
-$shadow_color: #999;
+$body-bg: #030303;
 $text_color: #fff;
-$alt_color : #48CAE4;
-$highlight_color: #33d06c;
+$primary : #48CAE4;
+$secondary: #999;
+$body-color: $secondary;
+$success: #33d06c;
+$info:    #0d6efd;
+$warning: #F9DC5C;
+$danger: #ED254E;
 $font_size: 18px;
 $font-weight: 500;
 $line_height: $font_size * 2;
 $secondary_font: 'Playfair Display', serif;
-$primary_font: 'IBM Plex Mono', monospace, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+$font-size-base: 1rem;
+$enable-negative-margins: true;
+$font-family-base: 'IBM Plex Mono', monospace, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 
 $bp : (
   desktop : 1440px,
   tablet : 768px,
   mobile : 480px,
+);
+
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $text-color,
+  "dark":       $body-bg,
 );

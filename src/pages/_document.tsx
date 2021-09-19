@@ -1,20 +1,18 @@
 import { HtmlContext } from 'next/dist/shared/lib/utils';
+import ThemeProvider from 'react-bootstrap/ThemeProvider';
 import { BODY_RENDER_TARGET } from 'next/dist/shared/lib/constants';
 import Document, { Html, Head, NextScript } from 'next/document';
 import { useContext } from 'react';
+import Container from 'react-bootstrap/Container';
 
-export function Main() {
+export const Main: any = (): any => {
   const { inAmpMode, docComponentsRendered } = useContext(HtmlContext);
 
   docComponentsRendered.Main = true;
 
   if (inAmpMode) return <div className="container">{BODY_RENDER_TARGET}</div>;
-  return (
-    <div id="__next" className="container">
-      {BODY_RENDER_TARGET}
-    </div>
-  );
-}
+  return <Container id="__next">{BODY_RENDER_TARGET}</Container>;
+};
 
 class MyDocument extends Document {
   render() {
@@ -32,7 +30,9 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
-        <Main />
+        <ThemeProvider dir={process.env.NEXT_PUBLIC_THEME_DIRECTION}>
+          <Main />
+        </ThemeProvider>
         <NextScript />
       </Html>
     );
