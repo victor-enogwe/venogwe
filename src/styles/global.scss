@@ -4,14 +4,18 @@
 @import "~bootstrap/scss/bootstrap";
 
 .container {
-  height: 100vh
+  height: 100vh;
+  overflow: hidden;
 }
 
 main {
-  height: calc(100vh - 120px);
+  height: calc(100vh - 22vh);
   overflow: hidden;
   overflow-y: scroll;
-  flex: 1;
+
+  @include query('sm') {
+    height: calc(100vh - 25.5vh);
+  }
 }
 
 footer {
@@ -27,11 +31,26 @@ footer {
   font-size: 0.675em;
 }
 
+.lead-text {
+  width: 90%;
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.rounded-img {
+  div {
+    border: none;
+    border-radius: 50%;
+  }
+}
+
 mark {
-  // background-color: $primary;
-  // color: $body-bg;
   background-color: transparent;
-  color: #fff;
+  text-decoration: wavy;
+  font-style: italic;
 
   &::before {
     content: " [highlight start] ";
@@ -55,13 +74,13 @@ mark {
 
 .offcanvas-top {
   height: auto;
-  height: 90px;
-  // margin-top: -1rem !important;
+  height: 17vh;
+  border: none;
   transition-timing-function: ease-in-out;
   transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
   transition: visibility all .5s ease-in-out;
 
-  @include query('mobile') {
+  @include query('sm') {
     height: 100vh;
   }
 

@@ -33,6 +33,8 @@
   ],
   "include": [
     "next-env.d.ts",
+    "bootstrap-styled.d.ts",
+    "@bootstrap-styled.d.ts",
     "**/*.ts",
     "**/*.tsx"
   ]

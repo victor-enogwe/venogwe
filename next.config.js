@@ -1,7 +1,13 @@
 const withPWA = require('next-pwa');
+const runtimeCaching = require('next-pwa/cache');
 
-module.exports = withPWA({
-  reactStrictMode: true,
+module.exports = require('next-transpile-modules')(
+  [
+    'bootstrap-styled',
+    '@bootstrap-styled/provider',
+  ]
+)(withPWA({
+  reactStrictMode: false,
   optimization: {
     minimize: process.env.NEXT_MINIMIZE,
   },
@@ -13,9 +19,10 @@ module.exports = withPWA({
     dest: 'public',
     register: true,
     skipWaiting: true,
+    runtimeCaching,
     fallbacks: {
       image: 'https://via.placeholder.com/100x100?text=victorenogwe.com',
     },
   },
   experimental: { optimizeCss: true, optimizeImages: true },
-});
+}));
