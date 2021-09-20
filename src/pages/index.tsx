@@ -9,7 +9,7 @@ import { FiLinkedin } from '@react-icons/all-files/fi/FiLinkedin';
 import { FaRegCalendarCheck } from '@react-icons/all-files/fa/FaRegCalendarCheck';
 import { pageClasses } from '@/utils/constants';
 import { getStaticProps } from '@/utils/functions';
-import { CalendlySettings, HeaderProps } from '@/typings';
+import { HeaderProps, CalendlySettings } from '@/typings';
 // import { useTranslations } from 'next-intl';
 
 export { getStaticProps };
