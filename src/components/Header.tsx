@@ -1,12 +1,9 @@
 import Image from 'next/image';
 import classNames from 'classnames';
 import Link from 'next/link';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Button from 'react-bootstrap/Button';
+import { ButtonGroup, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { BsFillBrightnessHighFill } from '@react-icons/all-files/bs/BsFillBrightnessHighFill';
 import { BsFillBrightnessLowFill } from '@react-icons/all-files/bs/BsFillBrightnessLowFill';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
 import styles from '@/styles/header.module.scss';
 import { HeaderProps } from '@/typings';
 import profilePic from '../../public/icon.png';

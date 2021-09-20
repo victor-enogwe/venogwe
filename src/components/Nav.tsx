@@ -1,13 +1,15 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
-import Offcanvas from 'react-bootstrap/OffCanvas';
-import Navbar from 'react-bootstrap/NavBar';
-import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Container from 'react-bootstrap/Container';
-import CloseButton from 'react-bootstrap/CloseButton';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import {
+  Offcanvas,
+  Navbar,
+  Nav,
+  NavDropdown,
+  OverlayTrigger,
+  Container,
+  CloseButton,
+  Tooltip,
+} from 'react-bootstrap';
 import { NavItem, NavMenuProps } from '@/typings';
 import { Head } from './Header';
 

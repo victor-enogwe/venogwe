@@ -1,4 +1,4 @@
-import Button from 'react-bootstrap/Button';
+import { Button } from 'react-bootstrap';
 import { FaGithub } from '@react-icons/all-files/fa/FaGithub';
 
 export function Footer(): JSX.Element {

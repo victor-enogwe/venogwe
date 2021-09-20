@@ -6,7 +6,7 @@ import { NextIntlProvider, useTranslations } from 'next-intl';
 import { NextSeo } from 'next-seo';
 import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
 import BootstrapProvider from '@bootstrap-styled/provider';
-import Container from 'react-bootstrap/Container';
+import { Container } from 'react-bootstrap';
 import { seoConfig } from '@/seo.config';
 import { i18nMessageFallback, onI18NError } from '@/utils/functions';
 import { Header } from '@/components/Header';

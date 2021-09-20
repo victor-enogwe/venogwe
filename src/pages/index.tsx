@@ -1,11 +1,8 @@
 import Link from 'next/link';
 import { openPopupWidget } from 'react-calendly';
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import { Button, Row, Col, ButtonGroup } from 'react-bootstrap';
 import { FiTwitter } from '@react-icons/all-files/fi/FiTwitter';
-import { FiLinkedin } from '@react-icons/all-files/fi/FiLinkedin';
+import { FaLinkedinIn } from '@react-icons/all-files/fa/FaLinkedinIn';
 import { FaRegCalendarCheck } from '@react-icons/all-files/fa/FaRegCalendarCheck';
 import { pageClasses } from '@/utils/constants';
 import { getStaticProps } from '@/utils/functions';
@@ -73,7 +70,7 @@ export default function Index({
               <Link href={process.env.NEXT_PUBLIC_LINKEDIN_URL ?? ``}>
                 <a title={`view LinkedIn profile of ${title}`} target="_blank">
                   <Button type="button" variant="info" className="me-2">
-                    <FiLinkedin />
+                    <FaLinkedinIn />
                   </Button>
                 </a>
               </Link>
