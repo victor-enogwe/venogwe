@@ -1,5 +1,4 @@
 /* eslint-disable react/no-array-index-key */
-import { NavItem, NavMenuProps } from '@/typings';
 import React from 'react';
 import Offcanvas from 'react-bootstrap/OffCanvas';
 import Navbar from 'react-bootstrap/NavBar';
@@ -9,6 +8,7 @@ import Container from 'react-bootstrap/Container';
 import CloseButton from 'react-bootstrap/CloseButton';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { NavItem, NavMenuProps } from '@/typings';
 import { Head } from './Header';
 
 export function NavItems({
@@ -24,16 +24,11 @@ export function NavItems({
       {items.map(
         ({ children = [], title, description = ``, url = `` }, index) => (
           <>
-            <Wrapper
-              as="li"
-              key={`${title}-${index}`}
-              eventKey={`${title.replace(/\s/g, ``)}-${index}-item`}
-            >
+            <Wrapper as="li" key={`${title}-${index}`}>
               <Nav.Link
                 className="d-flex flex-column"
                 title={title}
                 href={url ?? `#`}
-                eventKey={`${title.replace(/\s/g, ``)}-${index}-link`}
               >
                 {title}
                 {description.length > 0 ? <small>{description}</small> : <></>}
@@ -58,6 +53,7 @@ export function NavItems({
 
 export function NavMenu({
   title,
+  theme,
   items,
   toggleNav = false,
   setToggleNav,
@@ -68,14 +64,14 @@ export function NavMenu({
       backdrop={false}
       aria-labelledby="navigation"
       placement="top"
-      className="bg-dark"
+      className={`bg-${theme}`}
     >
       <Offcanvas.Header>
         <Container>
-          <Navbar bg="dark" variant="dark">
+          <Navbar bg={theme} variant={theme}>
             <Container fluid className="flex-column flex-sm-row">
               <Navbar.Brand>
-                <Head title={title} />
+                <Head title={title} theme={theme} />
               </Navbar.Brand>
               <Navbar.Toggle
                 aria-controls="basic-navbar-nav"
@@ -100,7 +96,7 @@ export function NavMenu({
           overlay={<Tooltip>close navigation</Tooltip>}
         >
           <CloseButton
-            variant="white"
+            variant={theme === `dark` ? `white` : undefined}
             className="btn position-absolute"
             aria-label="close navigation"
             onClick={() => setToggleNav(!toggleNav)}

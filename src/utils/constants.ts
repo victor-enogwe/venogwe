@@ -5,8 +5,9 @@ export const URL_REGEX =
 
 export const pageClasses = classNames({
   'd-flex': true,
-  row: true,
   'flex-column': true,
   // 'flex-md-column': true,
   'flex-md-row': true,
+  'flex-fill': true,
+  'my-3': true,
 });

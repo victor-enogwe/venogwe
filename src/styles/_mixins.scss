@@ -2,7 +2,7 @@
 
 @mixin query($displays...){
   @for $i from 1 through length($displays) {
-    @each $key, $value in $bp{
+    @each $key, $value in $grid-breakpoints {
       @if (nth($displays, $i) == $key){
         @media (max-width: $value){@content;}
       }

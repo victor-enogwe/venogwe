@@ -34,13 +34,16 @@ export interface NavToggleProps {
 
 export interface NavMenuProps extends NavToggleProps {
   title: string;
+  theme: 'light' | 'dark';
   items: NavItem[];
 }
 
 export interface HeaderProps extends NavToggleProps {
   title: string;
+  theme: 'light' | 'dark';
   translator: typeof useTranslations;
   toggleNav: boolean;
+  toggleTheme: React.Dispatch<React.SetStateAction<'light' | 'dark'>>;
   setToggleNav: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -49,6 +52,7 @@ export interface FooterProps {
 }
 
 export interface CalendlySettings {
+  url: string;
   pageSettings?: PageSettings;
   prefill?: Prefill;
   utm?: Utm;

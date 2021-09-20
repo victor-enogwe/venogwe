@@ -1,20 +1,30 @@
-import { CalendlySettings } from '@/typings';
-import { getStaticProps } from '@/utils/functions';
-import Image from 'next/image';
 import Link from 'next/link';
-import { pageClasses } from '@/utils/constants';
-import { PopupButton } from 'react-calendly';
+import { openPopupWidget } from 'react-calendly';
 import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import linkedIn from '../../public/linkedIn.svg';
-import twitter from '../../public/twitter.svg';
+import { FiTwitter } from '@react-icons/all-files/fi/FiTwitter';
+import { FiLinkedin } from '@react-icons/all-files/fi/FiLinkedin';
+import { FaRegCalendarCheck } from '@react-icons/all-files/fa/FaRegCalendarCheck';
+import { pageClasses } from '@/utils/constants';
+import { getStaticProps } from '@/utils/functions';
+import { CalendlySettings, HeaderProps } from '@/typings';
 // import { useTranslations } from 'next-intl';
 
 export { getStaticProps };
 
-export default function Index({ title }: { title: string }): JSX.Element {
+export default function Index({
+  title,
+  theme,
+}: {
+  theme: HeaderProps['theme'];
+  title: string;
+}): JSX.Element {
   // const translations = useTranslations(`Index`);
+  const altTheme = theme === `dark` ? `light` : `dark`;
   const calendlySettings: CalendlySettings = {
+    url: process.env.NEXT_PUBLIC_CALENDLY_URL ?? ``,
     pageSettings: {
       backgroundColor: `#030303`,
       primaryColor: `#999`,
@@ -28,67 +38,70 @@ export default function Index({ title }: { title: string }): JSX.Element {
 
   return (
     <main className={`${pageClasses} align-items-center`}>
-      <div className="d-flex flex-column col-md-7">
-        <h2 className="d-flex flex-column secondary_font text-white text-wrap fs-1 fw-bold title">
-          <span>{title}</span>
-          <span className="fs-5 text-body">
-            is a <mark>creative</mark> who loves to follow{` `}
-            <mark>best practices</mark>, has an eye for <mark>quality</mark> and
-            a knack for developing and maintaining&nbsp;
-            <mark>scalable</mark> web applications.
-          </span>
-        </h2>
-        <Link href="/">
-          <a>
-            <Button className="btn btn-success btn-lg">View Resume</Button>
-          </a>
-        </Link>
-      </div>
-      <div className="d-flex flex-column align-items-md-end col-md-5">
-        <h2 className="d-flex flex-column align-items-md-end text-success primary_font fs-3 fw-bold text-wrap">
-          <span>
-            <strong>Let&apos;s Connect</strong>
-          </span>
-          <span className="fs-5 text-body">You can reach me via:</span>
-        </h2>
-        <ButtonGroup size="sm" aria-label="social links">
-          <Link href={process.env.NEXT_PUBLIC_LINKEDIN_URL ?? ``}>
-            <a>
-              <Button type="button" variant="info" className=" mx-2">
-                <Image
-                  priority
-                  src={linkedIn}
-                  alt={`view LinkedIn profile of ${title}`}
-                  width={20}
-                  height={20}
-                />
-              </Button>
-            </a>
-          </Link>
-          <Link
-            href={`https://twitter.com/${process.env.NEXT_PUBLIC_TWITTER_USERNAME}`}
+      <Row>
+        <Col md={8} lg={6}>
+          <h2
+            className={`d-flex flex-column secondary_font text-${altTheme} text-wrap display-1`}
           >
+            {title}
+          </h2>
+          <p className="lead lead-text secondary_font mb-3">
+            is a <mark className={`text-${altTheme}`}>creative</mark> who loves
+            to follow{` `}
+            <mark className={`text-${altTheme}`}>best practices</mark>, has an
+            eye for
+            <mark className={`text-${altTheme}`}>quality</mark> and a knack for
+            developing and maintaining&nbsp;
+            <mark className={`text-${altTheme}`}>scalable</mark> web
+            applications.
+          </p>
+          <Link href="/">
             <a>
-              <Button type="button" variant="primary" className="mx-2">
-                <Image
-                  className="social-btn"
-                  priority
-                  src={twitter}
-                  alt={`view Twitter profile of ${title}`}
-                  width={20}
-                  height={20}
-                />
-              </Button>
+              <Button className="btn btn-success btn-lg">View Resume</Button>
             </a>
           </Link>
-          <PopupButton
-            {...calendlySettings}
-            url={process.env.NEXT_PUBLIC_CALENDLY_URL ?? ``}
-            text="Calendly Meeting"
-            className="btn btn-sm btn-light ms-2"
-          />
-        </ButtonGroup>
-      </div>
+        </Col>
+        <Col className="align-items-md-end pt-3">
+          <h2 className="d-flex flex-column align-items-md-end text-success fs-3 fw-bold text-wrap">
+            Let&apos;s Connect
+          </h2>
+          <p className="d-flex flex-column align-items-md-end my-3">
+            You can reach me via:
+          </p>
+          <div className="d-flex flex-column align-items-md-end mb-2">
+            <ButtonGroup size="sm" aria-label="social links">
+              <Link href={process.env.NEXT_PUBLIC_LINKEDIN_URL ?? ``}>
+                <a title={`view LinkedIn profile of ${title}`} target="_blank">
+                  <Button type="button" variant="info" className="me-2">
+                    <FiLinkedin />
+                  </Button>
+                </a>
+              </Link>
+              <Link
+                href={`https://twitter.com/${process.env.NEXT_PUBLIC_TWITTER_USERNAME}`}
+              >
+                <a title={`view Twitter profile of ${title}`} target="_blank">
+                  <Button
+                    type="button"
+                    variant="primary"
+                    className="mx-2"
+                    aria-label="twitter"
+                  >
+                    <FiTwitter />
+                  </Button>
+                </a>
+              </Link>
+              <Button
+                variant="info"
+                onClick={() => openPopupWidget(calendlySettings)}
+                className=" ms-2"
+              >
+                <FaRegCalendarCheck /> Calendly
+              </Button>
+            </ButtonGroup>
+          </div>
+        </Col>
+      </Row>
     </main>
   );
 }
