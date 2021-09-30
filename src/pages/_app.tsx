@@ -7,24 +7,21 @@ import { NextSeo } from 'next-seo';
 import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
 import BootstrapProvider from '@bootstrap-styled/provider';
 import { Container } from 'react-bootstrap';
+import { useRouter } from 'next/router';
 import { seoConfig } from '@/seo.config';
 import { i18nMessageFallback, onI18NError } from '@/utils/functions';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import '@reach/skip-nav/styles.css';
-import { HeaderProps, NavItem } from '@/typings';
+import { HeaderProps } from '@/typings';
 import { NavMenu } from '@/components/Nav';
 import '@/styles/global.scss';
+import { menuItems } from '@/menu.config';
 
 export default function VictorEnogwe({ Component, pageProps }: AppProps) {
   // eslint-disable-next-line import/no-dynamic-require
   const messages = require(`@/i18n/${pageProps.locale ?? `en-US`}.json`);
-  const menuItems: NavItem[] = [
-    { title: `Home` },
-    { title: `About` },
-    { title: `Blog` },
-    { title: `Tools` },
-  ];
+  const { route } = useRouter();
   const [toggleNav, setToggleNav] = useState<boolean>(false);
   const [theme, toggleTheme] = useState<HeaderProps['theme']>(`dark`);
   const defaultTheme = {
@@ -59,21 +56,22 @@ export default function VictorEnogwe({ Component, pageProps }: AppProps) {
     '$body-color': `#999`,
   });
   const styles = theme === `dark` ? darkTheme : lightTheme;
+  const seo = { ...seoConfig.default, ...seoConfig[route] };
 
   return (
     <BootstrapProvider theme={styles} injectGlobal reset>
-      <NextSeo {...seoConfig.default} />
+      <NextSeo {...seo} />
       <NextIntlProvider
         messages={messages}
         locale={pageProps.locale}
         onError={onI18NError}
         getMessageFallback={i18nMessageFallback}
       >
-        <Container>
+        <Container className="d-flex flex-column p-3">
           <SkipNavLink />
           <Header
             theme={theme}
-            title={pageProps.title}
+            siteName={pageProps.siteName}
             toggleNav={toggleNav}
             translator={useTranslations}
             setToggleNav={setToggleNav}
@@ -81,14 +79,14 @@ export default function VictorEnogwe({ Component, pageProps }: AppProps) {
           />
           <NavMenu
             theme={theme}
-            title={pageProps.title}
+            siteName={pageProps.siteName}
             items={menuItems}
             toggleNav={toggleNav}
             setToggleNav={setToggleNav}
           />
           <SkipNavContent />
           <Component
-            {...pageProps}
+            {...{ ...pageProps, seo, route }}
             theme={theme}
             translator={useTranslations}
           />

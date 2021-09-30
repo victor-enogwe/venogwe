@@ -6,6 +6,7 @@ export const URL_REGEX =
 export const pageClasses = classNames({
   'd-flex': true,
   'flex-column': true,
+  'container-fluid': true,
   // 'flex-md-column': true,
   'flex-md-row': true,
   'flex-fill': true,

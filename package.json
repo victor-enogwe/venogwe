@@ -58,11 +58,13 @@
   "devDependencies": {
     "@commitlint/cli": "13.1.0",
     "@commitlint/config-conventional": "13.1.0",
+    "@next/bundle-analyzer": "11.1.2",
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "12.1.0",
     "@types/node": "14.17.14",
     "@types/react": "17.0.20",
     "@types/react-dom": "17.0.9",
+    "@types/styled-components": "5.1.14",
     "@typescript-eslint/eslint-plugin": "4.30.0",
     "babel-jest": "27.1.1",
     "commitizen": "4.2.4",

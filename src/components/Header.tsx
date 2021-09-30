@@ -10,10 +10,10 @@ import profilePic from '../../public/icon.png';
 
 export function Head({
   theme,
-  title,
+  siteName,
 }: {
   theme: HeaderProps['theme'];
-  title: string;
+  siteName: string;
 }) {
   const altTheme = theme === `dark` ? `light` : `dark`;
 
@@ -32,21 +32,21 @@ export function Head({
           className="img-fluid img-thumbnail rounded"
           priority
           src={profilePic}
-          alt={`profile picture of ${title}`}
+          alt={`profile picture of ${siteName}`}
           width={48}
           height={48}
         />
       </div>
       <Link href="/">
         <a className="d-flex text-decoration-none">
-          <h1 className={`d-flex flex-column text-${altTheme} fs-5`}>
-            <span>{title}</span>
+          <div className={`d-flex flex-column text-${altTheme} fs-5`}>
+            <span>{siteName}</span>
             <span className="fs-6 fw-lighter fst-italic">
               <small className="smaller text-success">
                 Senior Software Engineer
               </small>
             </span>
-          </h1>
+          </div>
         </a>
       </Link>
     </div>
@@ -54,7 +54,7 @@ export function Head({
 }
 
 export function Header({
-  title,
+  siteName,
   theme,
   toggleTheme,
   toggleNav,
@@ -70,10 +70,11 @@ export function Header({
         'flex-nowrap': true,
         'justify-content-between': true,
         'align-items-center': true,
-        'py-4': true,
+        'py-2': true,
+        'px-2': true,
       })}
     >
-      <Head title={title} theme={theme} />
+      <Head siteName={siteName} theme={theme} />
       <ButtonGroup aria-label="Menu Actions">
         <OverlayTrigger
           placement="top"
@@ -86,9 +87,15 @@ export function Header({
             onClick={() => toggleTheme(altTheme)}
           >
             {theme === `light` ? (
-              <BsFillBrightnessHighFill color={altTheme} />
+              <BsFillBrightnessHighFill
+                color={altTheme}
+                title="light theme switch icon"
+              />
             ) : (
-              <BsFillBrightnessLowFill color={altTheme} />
+              <BsFillBrightnessLowFill
+                color={altTheme}
+                title="dark theme switch icon"
+              />
             )}
           </Button>
         </OverlayTrigger>
@@ -118,9 +125,9 @@ export function Header({
               })}
               aria-label="Open Navigation"
               aria-expanded="false"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasExample"
-              aria-controls="offcanvasExample"
+              data-bs-toggle="navigation"
+              data-bs-target="#navigation"
+              aria-controls="navigation"
               onClick={() => setToggleNav(!toggleNav)}
             >
               <div

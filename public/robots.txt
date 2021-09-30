@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://victorenogwe.me
+
+# Sitemaps
+Sitemap: https://victorenogwe.me/sitemap.xml

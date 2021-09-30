@@ -5,29 +5,29 @@ export const seoConfig: SEOConfig = {
     title: `Victor Enogwe`,
     defaultTitle: `Victor Enogwe`,
     description: `Senior Software Engineer - Typescript/Javascript/Php/Python`,
-    canonical: `https://www.canonical.ie/`,
+    canonical: process.env.NEXT_PUBLIC_SITE_URL,
     openGraph: {
       type: `website`,
       locale: `en_IE`,
-      url: `https://www.victorenogwe.me/`,
+      url: process.env.NEXT_PUBLIC_SITE_URL,
       title: `Victor Enogwe`,
       description: ``,
-      images: [
-        {
-          url: `https://www.example.ie/og-image-01.jpg`,
-          width: 800,
-          height: 600,
-          alt: `Og Image Alt`,
-        },
-        {
-          url: `https://www.example.ie/og-image-02.jpg`,
-          width: 900,
-          height: 800,
-          alt: `Og Image Alt Second`,
-        },
-        { url: `https://www.example.ie/og-image-03.jpg` },
-        { url: `https://www.example.ie/og-image-04.jpg` },
-      ],
+      // images: [
+      //   {
+      //     url: `${process.env.NEXT_PUBLIC_SITE_URL}/og-image-01.jpg`,
+      //     width: 800,
+      //     height: 600,
+      //     alt: `Og Image Alt`,
+      //   },
+      //   {
+      //     url: `${process.env.NEXT_PUBLIC_SITE_URL}/og-image-02.jpg`,
+      //     width: 900,
+      //     height: 800,
+      //     alt: `Og Image Alt Second`,
+      //   },
+      //   { url: `${process.env.NEXT_PUBLIC_SITE_URL}/og-image-03.jpg` },
+      //   { url: `${process.env.NEXT_PUBLIC_SITE_URL}/og-image-04.jpg` },
+      // ],
       site_name: `Victor Enogwe`,
     },
     twitter: {
@@ -35,5 +35,9 @@ export const seoConfig: SEOConfig = {
       site: `@site`,
       cardType: `summary_large_image`,
     },
+  },
+  [`/404`]: {
+    title: `Error 404 - Victor Enogwe`,
+    description: `Page Not Found`,
   },
 };

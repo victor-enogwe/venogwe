@@ -2,10 +2,12 @@
 import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
+  GetStaticPathsResult,
   GetStaticPropsContext,
   GetStaticPropsResult,
 } from 'next';
 import { IntlError, IntlErrorCode } from 'next-intl';
+import { ParsedUrlQuery } from 'querystring';
 
 export async function getStaticProps(
   context: GetStaticPropsContext,
@@ -16,8 +18,17 @@ export async function getStaticProps(
     props: {
       locale: locale ?? defaultLocale ?? process.env.NEXT_PUBLIC_DEFAULT_LOCALE,
       locales,
-      title: process.env.NEXT_PUBLIC_SITE_NAME,
+      siteName: process.env.NEXT_PUBLIC_SITE_NAME,
     },
+  };
+}
+
+export async function getStaticPaths(): Promise<
+  GetStaticPathsResult<ParsedUrlQuery>
+> {
+  return {
+    paths: [],
+    fallback: true,
   };
 }
 

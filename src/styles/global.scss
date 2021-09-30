@@ -14,13 +14,13 @@ main {
   overflow-y: scroll;
 
   @include query('sm') {
-    height: calc(100vh - 25.5vh);
+    height: calc(100vh - 30vh);
   }
 }
 
 footer {
   // flex: 1;
-  height: 45px;
+  // height: 45px;
 }
 
 .secondary_font {
@@ -32,7 +32,7 @@ footer {
 }
 
 .lead-text {
-  width: 90%;
+  width: 97%;
 }
 
 .btn:focus {
@@ -73,19 +73,21 @@ mark {
 }
 
 .offcanvas-top {
-  height: auto;
-  height: 17vh;
+  height: 10vh;
   border: none;
   transition-timing-function: ease-in-out;
   transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
   transition: visibility all .5s ease-in-out;
 
-  @include query('sm') {
+  .offcanvas-header {
     height: 100vh;
   }
 
-  .btn-close {
-    top: 3.25rem;
-    right: 3.25rem;
+  @include query('sm') {
+    height: 100vh;
+
+    .btn-close {
+      padding-top: $spacer * 4.5;
+    }
   }
 }

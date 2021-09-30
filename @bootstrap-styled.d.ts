@@ -1,1 +1,1 @@
-import 'bootstrap-styled'
+import 'bootstrap-styled';

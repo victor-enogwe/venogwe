@@ -6,12 +6,14 @@ import {
   Nav,
   NavDropdown,
   OverlayTrigger,
-  Container,
   CloseButton,
   Tooltip,
 } from 'react-bootstrap';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { NavItem, NavMenuProps } from '@/typings';
 import { Head } from './Header';
+import Social from './Social';
 
 export function NavItems({
   items,
@@ -20,28 +22,37 @@ export function NavItems({
   items: NavItem[];
   parent: boolean;
 }) {
+  const { route } = useRouter();
   const Wrapper = parent ? Nav.Item : NavDropdown.Item;
+
   return (
     <>
       {items.map(
         ({ children = [], title, description = ``, url = `` }, index) => (
           <>
-            <Wrapper as="li" key={`${title}-${index}`}>
-              <Nav.Link
-                className="d-flex flex-column"
-                title={title}
-                href={url ?? `#`}
-              >
-                {title}
-                {description.length > 0 ? <small>{description}</small> : <></>}
-                {children.length > 0 ? (
-                  <NavDropdown title={title}>
-                    <NavItems items={children} parent={false} />
-                  </NavDropdown>
-                ) : (
-                  <></>
-                )}
-              </Nav.Link>
+            <Wrapper as="li" key={`${title}-${index}`} className="text-start">
+              <Link href={url ?? `#`} passHref>
+                <Nav.Link
+                  className="d-flex flex-column"
+                  active={route === url}
+                  title={description ?? title}
+                  href={url ?? `#`}
+                >
+                  {title}
+                  {description.length > 0 ? (
+                    <small>{description}</small>
+                  ) : (
+                    <></>
+                  )}
+                  {children.length > 0 ? (
+                    <NavDropdown title={title}>
+                      <NavItems items={children} parent={false} />
+                    </NavDropdown>
+                  ) : (
+                    <></>
+                  )}
+                </Nav.Link>
+              </Link>
             </Wrapper>
             {!parent && children.length !== index - 1 && (
               <NavDropdown.Divider />
@@ -54,7 +65,7 @@ export function NavItems({
 }
 
 export function NavMenu({
-  title,
+  siteName,
   theme,
   items,
   toggleNav = false,
@@ -64,46 +75,47 @@ export function NavMenu({
     <Offcanvas
       show={toggleNav}
       backdrop={false}
+      id="navigation"
       aria-labelledby="navigation"
       placement="top"
-      className={`bg-${theme}`}
+      className={`bg-${theme} px-3`}
     >
-      <Offcanvas.Header>
-        <Container>
-          <Navbar bg={theme} variant={theme}>
-            <Container fluid className="flex-column flex-sm-row">
-              <Navbar.Brand>
-                <Head title={title} theme={theme} />
-              </Navbar.Brand>
-              <Navbar.Toggle
-                aria-controls="basic-navbar-nav"
-                onClick={() => setToggleNav(!toggleNav)}
-              />
-              <Navbar.Collapse className="justify-content-sm-end me-sm-4">
-                <Nav
-                  fill
-                  justify
-                  navbarScroll
-                  as="ul"
-                  className="flex-column flex-sm-row"
-                >
-                  <NavItems items={items} parent />
-                </Nav>
-              </Navbar.Collapse>
-            </Container>
-          </Navbar>
-        </Container>
-        <OverlayTrigger
-          placement="top"
-          overlay={<Tooltip>close navigation</Tooltip>}
+      <Offcanvas.Header className="d-flex container h-100 justify-content-start justify-content-md-between">
+        {/* <Container> */}
+        <Navbar
+          bg={theme}
+          variant={theme}
+          className="flex-column flex-sm-row flex-fill h-100 justify-content-end align-items-start align-items-sm-center col-11"
         >
-          <CloseButton
-            variant={theme === `dark` ? `white` : undefined}
-            className="btn position-absolute"
-            aria-label="close navigation"
-            onClick={() => setToggleNav(!toggleNav)}
-          />
-        </OverlayTrigger>
+          <Navbar.Brand className="flex-start">
+            <Head siteName={siteName} theme={theme} />
+          </Navbar.Brand>
+          <Navbar.Collapse className="flex-fill h-100 justify-content-sm-end me-sm-4">
+            <Nav
+              fill
+              justify
+              navbarScroll
+              as="ul"
+              className="flex-column flex-sm-row"
+            >
+              <NavItems items={items} parent />
+            </Nav>
+          </Navbar.Collapse>
+          <Social className="d-sm-none" siteName={siteName} />
+        </Navbar>
+        <div className="d-flex flex-fill flex-grow-1 justify-content-end align-self-sm-start align-items-sm-center h-100">
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip>close navigation</Tooltip>}
+          >
+            <CloseButton
+              variant={theme === `dark` ? `white` : undefined}
+              className="btn btn-lg justify-content-end"
+              aria-label="close navigation"
+              onClick={() => setToggleNav(!toggleNav)}
+            />
+          </OverlayTrigger>
+        </div>
       </Offcanvas.Header>
     </Offcanvas>
   );

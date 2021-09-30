@@ -33,13 +33,13 @@ export interface NavToggleProps {
 }
 
 export interface NavMenuProps extends NavToggleProps {
-  title: string;
+  siteName: string;
   theme: 'light' | 'dark';
   items: NavItem[];
 }
 
 export interface HeaderProps extends NavToggleProps {
-  title: string;
+  siteName: string;
   theme: 'light' | 'dark';
   translator: typeof useTranslations;
   toggleNav: boolean;
