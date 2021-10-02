@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
 import { AppProps } from 'next/app';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { makeTheme } from 'bootstrap-styled';
 import { NextIntlProvider, useTranslations } from 'next-intl';
 import { NextSeo } from 'next-seo';
@@ -8,6 +8,7 @@ import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
 import BootstrapProvider from '@bootstrap-styled/provider';
 import { Container } from 'react-bootstrap';
 import { useRouter } from 'next/router';
+import { MetaTag } from 'next-seo/lib/types';
 import { seoConfig } from '@/seo.config';
 import { i18nMessageFallback, onI18NError } from '@/utils/functions';
 import { Header } from '@/components/Header';
@@ -21,7 +22,7 @@ import { menuItems } from '@/menu.config';
 export default function VictorEnogwe({ Component, pageProps }: AppProps) {
   // eslint-disable-next-line import/no-dynamic-require
   const messages = require(`@/i18n/${pageProps.locale ?? `en-US`}.json`);
-  const { route } = useRouter();
+  const { route, events } = useRouter();
   const [toggleNav, setToggleNav] = useState<boolean>(false);
   const [theme, toggleTheme] = useState<HeaderProps['theme']>(`dark`);
   const defaultTheme = {
@@ -56,7 +57,15 @@ export default function VictorEnogwe({ Component, pageProps }: AppProps) {
     '$body-color': `#999`,
   });
   const styles = theme === `dark` ? darkTheme : lightTheme;
-  const seo = { ...seoConfig.default, ...seoConfig[route] };
+  const additionalMetaTags: MetaTag[] = [
+    { name: `theme-color`, content: styles[`$body-bg`] },
+  ];
+  const seo = { ...seoConfig.default, additionalMetaTags, ...seoConfig[route] };
+
+  useEffect(
+    () => events.on(`routeChangeComplete`, () => setToggleNav(false)),
+    [toggleNav, events],
+  );
 
   return (
     <BootstrapProvider theme={styles} injectGlobal reset>

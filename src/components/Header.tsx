@@ -30,7 +30,6 @@ export function Head({
       <div className="d-flex justify-content-center align-items-center rounded-img pe-2">
         <Image
           className="img-fluid img-thumbnail rounded"
-          priority
           src={profilePic}
           alt={`profile picture of ${siteName}`}
           width={48}

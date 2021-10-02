@@ -11,7 +11,7 @@ export const seoConfig: SEOConfig = {
       locale: `en_IE`,
       url: process.env.NEXT_PUBLIC_SITE_URL,
       title: `Victor Enogwe`,
-      description: ``,
+      description: `senior software engineer - Javascript/Typescript`,
       // images: [
       //   {
       //     url: `${process.env.NEXT_PUBLIC_SITE_URL}/og-image-01.jpg`,
@@ -35,6 +35,18 @@ export const seoConfig: SEOConfig = {
       site: `@site`,
       cardType: `summary_large_image`,
     },
+  },
+  '/resume': {
+    title: `My Resume - Victor Enogwe`,
+    description: `work experience, projects, community service and hobbies`,
+  },
+  '/portfolio': {
+    title: `My Portfolio - Victor Enogwe`,
+    description: `tools and projects I've built`,
+  },
+  '/blog': {
+    title: `Personal Blog - Victor Enogwe`,
+    description: `journal of knowledge and experience gained over time`,
   },
   [`/404`]: {
     title: `Error 404 - Victor Enogwe`,

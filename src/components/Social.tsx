@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { openPopupWidget } from 'react-calendly';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { FiTwitter } from '@react-icons/all-files/fi/FiTwitter';
+import { SiGmail } from '@react-icons/all-files/si/SiGmail';
 import { FaLinkedinIn } from '@react-icons/all-files/fa/FaLinkedinIn';
 import { FaRegCalendarCheck } from '@react-icons/all-files/fa/FaRegCalendarCheck';
 import { CalendlySettings } from '@/typings';
@@ -45,7 +46,7 @@ export default function Social({
               <Button
                 type="button"
                 variant="info"
-                className="me-2"
+                className="me-1"
                 aria-label="linkedin"
               >
                 <FaLinkedinIn title="linkedIn icon" />
@@ -63,10 +64,28 @@ export default function Social({
               <Button
                 type="button"
                 variant="primary"
-                className="mx-2"
+                className="mx-1"
                 aria-label="twitter"
               >
                 <FiTwitter title="twitter icon" />
+              </Button>
+            </a>
+          </Link>
+          <Link
+            href={`mailto:${process.env.NEXT_PUBLIC_EMAIL}?subject=Hello ${siteName}`}
+          >
+            <a
+              title={`send ${siteName} an email`}
+              target="_blank"
+              rel="noopener"
+            >
+              <Button
+                type="button"
+                variant="primary"
+                className="mx-1"
+                aria-label="email"
+              >
+                <SiGmail title="twitter icon" />
               </Button>
             </a>
           </Link>
@@ -74,7 +93,7 @@ export default function Social({
             variant="info"
             aria-label="calendly meetings"
             onClick={() => openPopupWidget(calendlySettings)}
-            className=" ms-2"
+            className=" ms-1"
           >
             <FaRegCalendarCheck title="calendly icon" /> Calendly
           </Button>

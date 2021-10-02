@@ -6,6 +6,7 @@ module.exports = require('next-transpile-modules')([
   '@bootstrap-styled/provider',
 ])(
   withPWA({
+    trailingSlash: true,
     reactStrictMode: false,
     optimization: {
       minimize: process.env.NEXT_MINIMIZE,
@@ -20,8 +21,9 @@ module.exports = require('next-transpile-modules')([
       skipWaiting: true,
       runtimeCaching,
       fallbacks: {
-        image: 'https://via.placeholder.com/100x100?text=victorenogwe.me',
+        image: '/100x100.png',
       },
+      publicExcludes: ['!robots.txt', '!sitemap.xml'],
     },
     experimental: { optimizeCss: true, optimizeImages: true },
   }),
