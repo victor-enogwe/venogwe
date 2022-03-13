@@ -5,10 +5,10 @@ import { makeTheme } from 'bootstrap-styled';
 import { NextIntlProvider, useTranslations } from 'next-intl';
 import { NextSeo } from 'next-seo';
 import { SkipNavLink, SkipNavContent } from '@reach/skip-nav';
-import BootstrapProvider from '@bootstrap-styled/provider';
 import { Container } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import { MetaTag } from 'next-seo/lib/types';
+import { BootstrapProvider } from '@/components/BootstrapProvider';
 import { seoConfig } from '@/seo.config';
 import { i18nMessageFallback, onI18NError } from '@/utils/functions';
 import { Header } from '@/components/Header';
@@ -48,11 +48,13 @@ export default function VictorEnogwe({ Component, pageProps }: AppProps) {
   };
   const darkTheme = makeTheme({
     ...defaultTheme,
+    _name: `bootstrap5-dark`,
     '$body-bg': `#030303`,
     '$body-color': `#999`,
   });
   const lightTheme = makeTheme({
     ...defaultTheme,
+    _name: `bootstrap5-light`,
     '$body-bg': defaultTheme.$light,
     '$body-color': `#999`,
   });

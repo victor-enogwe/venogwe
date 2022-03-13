@@ -77,7 +77,9 @@ export function Header({
       <ButtonGroup aria-label="Menu Actions">
         <OverlayTrigger
           placement="top"
-          overlay={<Tooltip>switch to {altTheme} mode</Tooltip>}
+          overlay={
+            <Tooltip id={`${altTheme}-mode`}>switch to {altTheme} mode</Tooltip>
+          }
         >
           <Button
             variant=""
@@ -100,7 +102,7 @@ export function Header({
         </OverlayTrigger>
         <OverlayTrigger
           placement="top"
-          overlay={<Tooltip>open navigation</Tooltip>}
+          overlay={<Tooltip id="nav-open">open navigation</Tooltip>}
         >
           <div
             className={classNames({

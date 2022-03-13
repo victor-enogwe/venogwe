@@ -106,7 +106,7 @@ export function NavMenu({
         <div className="d-flex flex-fill flex-grow-1 justify-content-end align-self-sm-start align-items-sm-center h-100">
           <OverlayTrigger
             placement="top"
-            overlay={<Tooltip>close navigation</Tooltip>}
+            overlay={<Tooltip id="nav-close">close navigation</Tooltip>}
           >
             <CloseButton
               variant={theme === `dark` ? `white` : undefined}

@@ -10,7 +10,13 @@ declare module '@bootstrap-styled/provider' {
     StyledComponentBase,
     DefaultTheme as StyledTheme,
     StyledComponentBase,
+    GlobalStyleComponent,
   } from 'styled-components/macro';
+
+  export const defaultProps: Pick<
+    BootstrapProviderProps,
+    'theme' | 'injectGlobal' | 'reset' | 'utils' | 'children'
+  >;
 
   export type BootstrapProviderProps = {
     children: ReactNode;
