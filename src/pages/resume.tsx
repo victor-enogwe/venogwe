@@ -1,8 +1,7 @@
-import { Button, Row, Col, Tab, Tabs } from 'react-bootstrap';
-import Link from 'next/link';
-import { FaFilePdf } from '@react-icons/all-files/fa/FaFilePdf';
 import { pageClasses } from '@/utils/constants';
 import { getStaticProps } from '@/utils/functions';
+import { FaFilePdf } from '@react-icons/all-files/fa/FaFilePdf';
+import { Button, Row, Tab, Tabs } from 'react-bootstrap';
 // import { useTranslations } from 'next-intl';
 
 export { getStaticProps };

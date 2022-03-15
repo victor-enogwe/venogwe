@@ -3,9 +3,9 @@ import classNames from 'classnames';
 import Link from 'next/link';
 import { ButtonGroup, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { BsFillBrightnessHighFill } from '@react-icons/all-files/bs/BsFillBrightnessHighFill';
-import { BsFillBrightnessLowFill } from '@react-icons/all-files/bs/BsFillBrightnessLowFill';
+import { BsMoon } from '@react-icons/all-files/bs/BsMoon';
 import styles from '@/styles/header.module.scss';
-import { HeaderProps } from '@/typings';
+import { HeaderProps } from '@/typings/typings';
 import profilePic from '../../public/icon.png';
 
 export function Head({
@@ -36,17 +36,15 @@ export function Head({
           height={48}
         />
       </div>
-      <Link href="/">
-        <a className="d-flex text-decoration-none">
+      <Link href="/" passHref>
+        <span className="d-flex text-decoration-none">
           <div className={`d-flex flex-column text-${altTheme} fs-5`}>
             <span>{siteName}</span>
             <span className="fs-6 fw-lighter fst-italic">
-              <small className="smaller text-success">
-                Senior Software Engineer
-              </small>
+              <small className="smaller text-success">Software Engineer</small>
             </span>
           </div>
-        </a>
+        </span>
       </Link>
     </div>
   );
@@ -93,10 +91,7 @@ export function Header({
                 title="light theme switch icon"
               />
             ) : (
-              <BsFillBrightnessLowFill
-                color={altTheme}
-                title="dark theme switch icon"
-              />
+              <BsMoon color={altTheme} title="dark theme switch icon" />
             )}
           </Button>
         </OverlayTrigger>

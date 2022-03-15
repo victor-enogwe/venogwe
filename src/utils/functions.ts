@@ -1,27 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { CombinedActions, Locales, VEProps, VEState } from '@/typings/typings';
+import { CookieAttributes } from 'js-cookie';
+import get from 'lodash.get';
 import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
   GetStaticPathsResult,
   GetStaticPropsContext,
-  GetStaticPropsResult,
 } from 'next';
 import { IntlError, IntlErrorCode } from 'next-intl';
+import { CookieSerializeOptions } from 'next/dist/server/web/types';
+import { NextRequest, NextResponse } from 'next/server';
 import { ParsedUrlQuery } from 'querystring';
-
-export async function getStaticProps(
-  context: GetStaticPropsContext,
-): Promise<GetStaticPropsResult<unknown>> {
-  const { locale, defaultLocale, locales } = context;
-
-  return {
-    props: {
-      locale: locale ?? defaultLocale ?? process.env.NEXT_PUBLIC_DEFAULT_LOCALE,
-      locales,
-      siteName: process.env.NEXT_PUBLIC_SITE_NAME,
-    },
-  };
-}
+import { Store } from 'redux';
+import { persistStore } from 'redux-persist';
+import { Persistor } from 'redux-persist/es/types';
 
 export async function getStaticPaths(): Promise<
   GetStaticPathsResult<ParsedUrlQuery>
@@ -29,25 +22,6 @@ export async function getStaticPaths(): Promise<
   return {
     paths: [],
     fallback: true,
-  };
-}
-
-export async function getServerSideProps(
-  context: GetServerSidePropsContext,
-): Promise<GetServerSidePropsResult<unknown>> {
-  const { locale, defaultLocale, locales, res, resolvedUrl } = context;
-  res.setHeader(
-    `Cache-Control`,
-    `public, s-maxage=10, stale-while-revalidate=59`,
-  );
-
-  return {
-    props: {
-      locale: locale ?? defaultLocale ?? process.env.NEXT_PUBLIC_DEFAULT_LOCALE,
-      locales,
-      title: process.env.NEXT_PUBLIC_SITE_NAME,
-      resolvedUrl,
-    },
   };
 }
 
@@ -73,4 +47,64 @@ export function i18nMessageFallback({
     default:
       return `Dear developer, please fix this message: ${path}`;
   }
+}
+
+export async function configurePersistor(
+  store: Store<VEState, CombinedActions>,
+): Promise<Persistor> {
+  return new Promise((resolve) => {
+    const persistor = persistStore(store, {}, () => resolve(persistor));
+  });
+}
+
+export async function getStaticProps(
+  context: GetStaticPropsContext,
+): Promise<{ props: VEProps }> {
+  const siteName = process.env.NEXT_PUBLIC_SITE_NAME as string;
+  const locales = get(context, `locales`) as Locales[];
+  const envLocale = get(process.env, `NEXT_PUBLIC_DEFAULT_LOCALE`, ``);
+  const defaultLocale = get(context, `defaultLocale`, envLocale);
+  const locale = get(context, `locale`, defaultLocale) as Locales;
+  const theme = `dark`;
+
+  return Promise.resolve({ props: { locale, locales, siteName, theme } });
+}
+
+export async function getServerSideProps(
+  context: GetServerSidePropsContext,
+): Promise<GetServerSidePropsResult<unknown>> {
+  const { res, resolvedUrl } = context;
+  const { props } = await getStaticProps(context);
+
+  res.setHeader(
+    `Cache-Control`,
+    `public, s-maxage=10, stale-while-revalidate=59`,
+  );
+
+  return {
+    props: {
+      title: process.env.NEXT_PUBLIC_SITE_NAME,
+      resolvedUrl,
+      ...props,
+    },
+  };
+}
+
+export function Cookies(request: NextRequest, response: NextResponse) {
+  return {
+    get: (key: string | undefined | null) =>
+      key ? get(request.cookies, key) : undefined,
+    set: (
+      name: string,
+      value: string,
+      attributes?: CookieAttributes,
+    ): string => {
+      response.cookie(
+        name,
+        value,
+        attributes as unknown as CookieSerializeOptions,
+      );
+      return value;
+    },
+  };
 }

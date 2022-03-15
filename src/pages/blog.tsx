@@ -1,6 +1,6 @@
-import { Button, Row, Col } from 'react-bootstrap';
 import { pageClasses } from '@/utils/constants';
 import { getStaticProps } from '@/utils/functions';
+import { Row } from 'react-bootstrap';
 // import { useTranslations } from 'next-intl';
 
 export { getStaticProps };

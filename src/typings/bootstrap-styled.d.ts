@@ -1,16 +1,14 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable max-classes-per-file */
 // Dependencies by bootstrap styled
 // --------------------------------
 declare module '@bootstrap-styled/css-mixins';
 declare module '@bootstrap-styled/provider' {
-  import { Component, ReactNode, ReactNode } from 'react';
+  import { Component, ReactNode } from 'react';
   import {
     DefaultTheme as StyledTheme,
     StyledComponentBase,
-    DefaultTheme as StyledTheme,
-    StyledComponentBase,
-    GlobalStyleComponent,
   } from 'styled-components/macro';
 
   export const defaultProps: Pick<
@@ -483,10 +481,8 @@ declare module '@bootstrap-styled/css-utils' {
 // ---------------------
 declare module 'bootstrap-styled' {
   import {
-    getGlobalStyles,
     getGlobalStyleNoBootstrapProvider,
     getGlobalStyles,
-    getGlobalStyleNoBootstrapProvider,
   } from '@bootstrap-styled/css-utils';
 
   export { getGlobalStyles, getGlobalStyleNoBootstrapProvider };
@@ -1228,25 +1224,23 @@ declare module 'bootstrap-styled' {
     [K in keyof Theme]?: Theme[K] | null;
   };
 
-  export type AnyTheme<T extends string | number | boolean | {}> = {
+  export type AnyTheme<
+    T extends string | number | boolean | Record<string, any>,
+  > = {
     [extraVars: string | symbol]: T;
   };
 
   export const theme: Theme;
   export function makeTheme(userTheme: UserTheme): Theme;
-
-  export function createMakeTheme(
-    list: ((theme: AnyTheme) => AnyTheme)[],
-  ): (theme: AnyTheme) => AnyTheme;
+  export type ListTheme = (userTheme: Partial<AnyTheme>) => AnyTheme;
+  export function createMakeTheme(list: ListTheme[]): ListTheme;
 
   export function makeScopedTheme(
     scopeName: string,
     userTheme?: { [scope: string]: UserTheme },
   ): { [scope: string]: UserTheme };
 
-  export function toMakeTheme(
-    theme: AnyTheme,
-  ): (userTheme: Partial<AnyTheme>) => AnyTheme;
+  export function toMakeTheme(userTheme: AnyTheme): ListTheme;
 }
 
 // Styled bootstrap components
@@ -1278,7 +1272,7 @@ declare module '@bootstrap-styled/v4' {
       | 'info'
       | 'warning'
       | 'danger';
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
   export const A: StyledComponentBase<
@@ -1314,7 +1308,7 @@ declare module '@bootstrap-styled/v4' {
     tag?: ElementType;
     title: string;
     initialism?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Abbr: StyledComponentBase<
@@ -1332,7 +1326,7 @@ declare module '@bootstrap-styled/v4' {
     onClick?: (event: SyntheticEvent) => void;
     tag?: ElementType;
     transition?: {
-      FadeProptypes?: object;
+      FadeProptypes?: Record<string, any>;
       unmountOnExit?: boolean;
     };
     autoHideDuration?: string | number;
@@ -1358,7 +1352,7 @@ declare module '@bootstrap-styled/v4' {
       '$enable-rounded'?: boolean;
     };
     uncontrolled?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Alert: StyledComponentBase<
@@ -1393,7 +1387,7 @@ declare module '@bootstrap-styled/v4' {
       '$blockquote-border-width'?: string;
     };
     reverse?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Blockquote: StyledComponentBase<
@@ -1415,7 +1409,7 @@ declare module '@bootstrap-styled/v4' {
       '$spacer-y'?: string;
       '$enable-rounded'?: boolean;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Breadcrumb: StyledComponentBase<
@@ -1427,7 +1421,7 @@ declare module '@bootstrap-styled/v4' {
     className?: string;
     tag?: ElementType;
     active?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const BreadcrumbItem: StyledComponentBase<
@@ -1451,8 +1445,8 @@ declare module '@bootstrap-styled/v4' {
       | 'info'
       | 'warning'
       | 'danger';
-    ref?: Function;
-    onClick?: Function;
+    ref?: React.LegacyRef;
+    onClick?: React.LegacyRef;
     size?: string; // Accepts: 'sm' | 'lg', but this type definition throws an error
     dropup?: boolean;
     tag?: ElementType;
@@ -1500,7 +1494,7 @@ declare module '@bootstrap-styled/v4' {
       '$enable-hover-media-query'?: boolean;
       '$enable-transitions'?: boolean;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & React.ButtonHTMLAttributes<HTMLButtonElement> &
     React.AnchorHTMLAttributes<HTMLAnchorElement> &
     React.InputHTMLAttributes<HTMLInputElement>;
@@ -1513,7 +1507,7 @@ declare module '@bootstrap-styled/v4' {
   export type ButtonDropdownProps = {
     children?: ReactNode;
     isOpen: boolean;
-    toggle: Function;
+    toggle: React.LegacyRef;
   } & HTMLAttributes<HTMLElement>;
 
   export const ButtonDropdown: StyledComponentBase<
@@ -1541,7 +1535,7 @@ declare module '@bootstrap-styled/v4' {
     };
     size?: string; // Accepts: 'sm' | 'lg', but this type definition throws an error
     vertical?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const ButtonGroup: StyledComponentBase<
@@ -1568,7 +1562,7 @@ declare module '@bootstrap-styled/v4' {
       '$enable-rounded'?: boolean;
       '$enable-shadows'?: boolean;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const ButtonToolbar: StyledComponentBase<
@@ -1595,9 +1589,9 @@ declare module '@bootstrap-styled/v4' {
       '$enable-hover-media-query'?: boolean;
     };
     closeLabel?: string;
-    onDismiss: Function;
+    onDismiss: React.LegacyRef;
     'sr-only'?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & HTMLAttributes<HTMLElement>;
 
   export const Close: StyledComponentBase<
@@ -1656,7 +1650,7 @@ declare module '@bootstrap-styled/v4' {
       '$grid-columns'?: string;
       '$grid-gutter-width'?: string;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Col: StyledComponentBase<ComponentClass<ColProps>, StyledTheme>;
@@ -1667,12 +1661,12 @@ declare module '@bootstrap-styled/v4' {
     delay?: { show?: number; hide?: number } | number;
     isOpen?: boolean;
     navbar?: boolean;
-    onOpened?: Function;
-    onClosed?: Function;
+    onOpened?: React.LegacyRef;
+    onClosed?: React.LegacyRef;
     theme?: {
       '$transition-collapse'?: string;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Collapse: ComponentClass<CollapseProps>;
@@ -1681,7 +1675,7 @@ declare module '@bootstrap-styled/v4' {
     theme?: {
       '$grid-columns'?: string;
       '$grid-gutter-width'?: string;
-      '$grid-breakpoints'?: object;
+      '$grid-breakpoints'?: Record<string, any>;
       '$enable-grid-classes'?: boolean;
     };
   } & HTMLAttributes<HTMLElement>;
@@ -1724,7 +1718,7 @@ declare module '@bootstrap-styled/v4' {
       '$drawer-zindex'?: string;
       '$drawer-docked-width'?: string;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & HTMLAttributes<HTMLElement>;
 
   export const Drawer: StyledComponentBase<
@@ -1737,7 +1731,7 @@ declare module '@bootstrap-styled/v4' {
       '$dt-font-weight'?: string;
       '$grid-columns'?: string;
       '$grid-gutter-width'?: string;
-      '$grid-breakpoints'?: object;
+      '$grid-breakpoints'?: Record<string, any>;
       '$enable-grid-classes'?: boolean;
     };
   } & HTMLAttributes<HTMLElement>;
@@ -1795,7 +1789,7 @@ declare module '@bootstrap-styled/v4' {
       | 'warning'
       | 'danger';
     lead?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & HTMLAttributes<HTMLHeadingElement>;
 
   export const H1: StyledComponentBase<ComponentClass<H1Props>, StyledTheme>;
@@ -1831,7 +1825,7 @@ declare module '@bootstrap-styled/v4' {
       | 'warning'
       | 'danger';
     lead?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & HTMLAttributes<HTMLHeadingElement>;
 
   export const H2: StyledComponentBase<ComponentClass<H2Props>, StyledTheme>;
@@ -1867,7 +1861,7 @@ declare module '@bootstrap-styled/v4' {
       | 'warning'
       | 'danger';
     lead?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & HTMLAttributes<HTMLHeadingElement>;
 
   export const H3: StyledComponentBase<ComponentClass<H3Props>, StyledTheme>;
@@ -1903,7 +1897,7 @@ declare module '@bootstrap-styled/v4' {
       | 'warning'
       | 'danger';
     lead?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & HTMLAttributes<HTMLHeadingElement>;
 
   export const H4: StyledComponentBase<ComponentClass<H4Props>, StyledTheme>;
@@ -1939,7 +1933,7 @@ declare module '@bootstrap-styled/v4' {
       | 'warning'
       | 'danger';
     lead?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & HTMLAttributes<HTMLHeadingElement>;
 
   export const H5: StyledComponentBase<ComponentClass<H5Props>, StyledTheme>;
@@ -1975,7 +1969,7 @@ declare module '@bootstrap-styled/v4' {
       | 'warning'
       | 'danger';
     lead?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & HTMLAttributes<HTMLEHTMLHeadingElementlement>;
 
   export const H6: StyledComponentBase<ComponentClass<H6Props>, StyledTheme>;
@@ -2051,7 +2045,7 @@ declare module '@bootstrap-styled/v4' {
       '$figure-caption-font-size'?: string;
       '$figure-caption-color'?: string;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & React.ImgHTMLAttributes<HTMLImageElement>;
 
   export const Img: StyledComponentBase<ComponentClass<ImgProps>, StyledTheme>;
@@ -2070,7 +2064,7 @@ declare module '@bootstrap-styled/v4' {
     children?: ReactNode;
     className?: string;
     right?: boolean;
-    theme?: object;
+    theme?: Record<string, any>;
   } & HTMLAttributes<HTMLElement>;
 
   export const FigCaption: StyledComponentBase<
@@ -2109,10 +2103,10 @@ declare module '@bootstrap-styled/v4' {
       | 'week';
     size?: string; // Accepts: 'sm' | 'lg', but this type definition throws an error
     state?: 'success' | 'warning' | 'danger';
-    ref?: Function;
+    ref?: React.LegacyRef;
     static?: boolean;
     addon?: boolean;
-    onChange?: Function;
+    onChange?: React.LegacyRef;
     indeterminate?: boolean;
     tag?: ElementType;
     theme?: {
@@ -2164,7 +2158,7 @@ declare module '@bootstrap-styled/v4' {
       '$link-hover-decoration'?: string;
       '$cursor-disabled'?: string;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & React.InputHTMLAttributes<HTMLInputElement>;
 
   export const Input: StyledComponentBase<
@@ -2216,7 +2210,7 @@ declare module '@bootstrap-styled/v4' {
       '$input-bg-focus'?: string;
       '$cursor-disabled'?: string;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const InputGroup: StyledComponentBase<
@@ -2227,7 +2221,7 @@ declare module '@bootstrap-styled/v4' {
   export type InputGroupAddonProps = {
     className?: string;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const InputGroupAddon: ComponentClass<InputGroupAddonProps>;
@@ -2236,9 +2230,9 @@ declare module '@bootstrap-styled/v4' {
     className?: string;
     children?: ReactNode;
     groupClassName?: string;
-    groupAttributes?: object;
+    groupAttributes?: Record<string, any>;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLButtonElement>;
 
   export const InputGroupButton: ComponentClass<InputGroupButtonProps>;
@@ -2254,13 +2248,13 @@ declare module '@bootstrap-styled/v4' {
     fluid?: boolean;
     theme?: {
       '$enable-rounded'?: boolean;
-      '$grid-breakpoints'?: object;
+      '$grid-breakpoints'?: Record<string, any>;
       '$border-radius-lg'?: string;
       '$jumbotron-padding'?: string;
       '$jumbotron-bg'?: string;
     };
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Jumbotron: StyledComponentBase<
@@ -2347,7 +2341,7 @@ declare module '@bootstrap-styled/v4' {
     md?: ColumnProps;
     lg?: ColumnProps;
     xl?: ColumnProps;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & React.LabelHTMLAttributes<HTMLLabelElement>;
 
   export const Label: StyledComponentBase<
@@ -2372,7 +2366,7 @@ declare module '@bootstrap-styled/v4' {
     'dropdown-item'?: boolean;
     'dropdown-header'?: boolean;
     'dropdown-footer'?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & React.LiHTMLAttributes<HTMLLIElement>;
 
   export const Li: StyledComponentBase<ComponentClass<LiProps>, StyledTheme>;
@@ -2414,7 +2408,7 @@ declare module '@bootstrap-styled/v4' {
       '$state-danger-text'?: string;
       '$state-danger-bg'?: string;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const ListGroup: StyledComponentBase<
@@ -2429,7 +2423,7 @@ declare module '@bootstrap-styled/v4' {
     disabled?: boolean;
     color?: 'success' | 'info' | 'warning' | 'danger' | '';
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const ListGroupItem: ComponentClass<ListGroupItemProps>;
@@ -2472,7 +2466,7 @@ declare module '@bootstrap-styled/v4' {
     right?: boolean;
     tag?: ElementType;
     top?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Media: StyledComponentBase<
@@ -2486,13 +2480,13 @@ declare module '@bootstrap-styled/v4' {
     baseClass?: string;
     baseClassActive?: string;
     className?: string;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   };
 
   export type ModalProps = {
     className?: string;
     theme?: {
-      '$grid-breakpoints'?: object;
+      '$grid-breakpoints'?: Record<string, any>;
       '$modal-md'?: string;
       '$modal-dialog-sm-up-margin-'?: string;
       '$enable-shadows'?: boolean;
@@ -2530,22 +2524,22 @@ declare module '@bootstrap-styled/v4' {
     isOpen?: boolean;
     autoFocus?: boolean;
     size?: 'sm' | 'lg' | '';
-    toggle?: Function;
+    toggle?: React.LegacyRef;
     keyboard?: boolean;
     role?: string;
     labelledBy?: string;
     backdrop?: boolean | 'static';
-    onEnter?: Function;
-    onExit?: Function;
-    onOpened?: Function;
-    onClosed?: Function;
+    onEnter?: React.LegacyRef;
+    onExit?: React.LegacyRef;
+    onOpened?: React.LegacyRef;
+    onClosed?: React.LegacyRef;
     children?: ReactNode;
     documentClassName?: string;
     modalClassName?: string;
     backdropClassName?: string;
     contentClassName?: string;
     fade?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
     zIndex?: number | string;
     backdropTransition?: FadePropTypes;
     modalTransition?: FadePropTypes;
@@ -2559,7 +2553,7 @@ declare module '@bootstrap-styled/v4' {
   export type ModalBodyProps = {
     className?: string;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const ModalBody: FunctionComponent<ModalBodyProps>;
@@ -2567,7 +2561,7 @@ declare module '@bootstrap-styled/v4' {
   export type ModalFooterProps = {
     className?: string;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const ModalFooter: FunctionComponent<ModalFooterProps>;
@@ -2577,8 +2571,8 @@ declare module '@bootstrap-styled/v4' {
     children?: ReactNode;
     tag?: ElementType;
     wrapTag?: ElementType;
-    toggle?: Function;
-    cssModule?: object;
+    toggle?: React.LegacyRef;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const ModalHeader: StyledComponentBase<
@@ -2642,7 +2636,7 @@ declare module '@bootstrap-styled/v4' {
       '$navbar-inverse-toggler-bg'?: string;
       '$navbar-inverse-disabled-color'?: string;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Nav: StyledComponentBase<ComponentClass<NavProps>, StyledTheme>;
@@ -2650,20 +2644,20 @@ declare module '@bootstrap-styled/v4' {
   export type NavItemProps = {
     className?: string;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const NavItem: ComponentClass<NavItemProps>;
 
   export type NavLinkProps = {
     className?: string;
-    ref?: Function;
+    ref?: React.LegacyRef;
     disabled?: boolean;
     active?: boolean;
-    onClick?: Function;
+    onClick?: React.LegacyRef;
     href?: string;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const NavLink: ComponentClass<NavLinkProps>;
@@ -2705,7 +2699,7 @@ declare module '@bootstrap-styled/v4' {
     theme?: {
       '$enable-rounded'?: boolean;
       '$enable-hover-media-query'?: boolean;
-      '$grid-breakpoints'?: object;
+      '$grid-breakpoints'?: Record<string, any>;
       '$font-size-h1'?: string;
       '$font-size-h2'?: string;
       '$font-size-h3'?: string;
@@ -2729,7 +2723,7 @@ declare module '@bootstrap-styled/v4' {
       '$lead-font-size'?: string;
       '$lead-font-weight'?: string;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & HTMLAttributes<HTMLParagraphElement>;
 
   export const P: StyledComponentBase<ComponentClass<PProps>, StyledTheme>;
@@ -2772,7 +2766,7 @@ declare module '@bootstrap-styled/v4' {
       | 'info'
       | 'warning'
       | 'danger';
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Pagination: StyledComponentBase<
@@ -2784,7 +2778,7 @@ declare module '@bootstrap-styled/v4' {
     active?: boolean;
     className?: string;
     children?: ReactNode;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
     disabled?: boolean;
     tag?: ElementType;
   } & AllHTMLAttributes<HTMLElement>;
@@ -2795,7 +2789,7 @@ declare module '@bootstrap-styled/v4' {
     'aria-label'?: string;
     className?: string;
     children?: ReactNode;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
     next?: boolean;
     previous?: boolean;
     tag?: ElementType;
@@ -2846,7 +2840,7 @@ declare module '@bootstrap-styled/v4' {
     striped?: boolean;
     animated?: boolean;
     color?: 'success' | 'info' | 'warning' | 'danger' | '';
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & HTMLAttributes<HTMLElement>;
 
   export const ProgressBar: ComponentClass<ProgressBarProps>;
@@ -2859,7 +2853,7 @@ declare module '@bootstrap-styled/v4' {
       '$grid-gutter-width'?: string;
       '$enable-grid-classes'?: boolean;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Row: StyledComponentBase<ComponentClass<RowProps>, StyledTheme>;
@@ -2896,7 +2890,7 @@ declare module '@bootstrap-styled/v4' {
       | 'info'
       | 'warning'
       | 'danger';
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Small: StyledComponentBase<
@@ -2916,7 +2910,7 @@ declare module '@bootstrap-styled/v4' {
       | 'info'
       | 'warning'
       | 'danger';
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & HTMLAttributes<HTMLElement>;
 
   export const Strong: StyledComponentBase<
@@ -2964,7 +2958,7 @@ declare module '@bootstrap-styled/v4' {
       '$state-warning-bg'?: string;
       '$state-danger-bg'?: string;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & React.TableHTMLAttributes<HTMLTableElement>;
 
   export const Table: StyledComponentBase<
@@ -3033,7 +3027,7 @@ declare module '@bootstrap-styled/v4' {
       '$enable-rounded'?: boolean;
       '$enable-hover-media-query'?: boolean;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Badge: StyledComponentBase<
@@ -3062,12 +3056,12 @@ declare module '@bootstrap-styled/v4' {
       | 'left top'
       | 'left middle'
       | 'left bottom';
-    target: string | object;
+    target: string | Record<string, any>;
     isOpen?: boolean;
     disabled?: boolean;
-    tether?: object;
-    tetherRef?: Function;
-    toggle?: Function;
+    tether?: Record<string, any>;
+    tetherRef?: React.LegacyRef;
+    toggle?: React.LegacyRef;
     autohide?: boolean;
     delay?: { show?: number; hide?: number } | number;
     theme?: {
@@ -3083,7 +3077,7 @@ declare module '@bootstrap-styled/v4' {
       '$tooltip-arrow-color'?: string;
       '$component-active-color'?: string;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & HTMLAttributes<HTMLDivElement>;
 
   export const Tooltip: StyledComponentBase<
@@ -3102,7 +3096,7 @@ declare module '@bootstrap-styled/v4' {
     theme?: {
       '$enable-rounded'?: boolean;
       '$enable-hover-media-query'?: boolean;
-      '$grid-breakpoints'?: object;
+      '$grid-breakpoints'?: Record<string, any>;
       '$border-width'?: string;
       '$font-size-lg'?: string;
       '$body-bg'?: string;
@@ -3209,7 +3203,7 @@ declare module '@bootstrap-styled/v4' {
     focus?: boolean;
     backgroundColor?: string;
     borderColor?: string;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Card: StyledComponentBase<
@@ -3220,7 +3214,7 @@ declare module '@bootstrap-styled/v4' {
   export type CardBlockProps = {
     className?: string;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const CardBlock: ComponentClass<CardBlockProps>;
@@ -3228,7 +3222,7 @@ declare module '@bootstrap-styled/v4' {
   export type CardBlockquoteProps = {
     className?: string;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const CardBlockquote: ComponentClass<CardBlockquoteProps>;
@@ -3279,7 +3273,7 @@ declare module '@bootstrap-styled/v4' {
       '$enable-rounded'?: boolean;
       '$enable-hover-media-query'?: boolean;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const CardColumns: StyledComponentBase<
@@ -3333,7 +3327,7 @@ declare module '@bootstrap-styled/v4' {
       '$enable-rounded'?: boolean;
       '$enable-hover-media-query'?: boolean;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const CardDeck: StyledComponentBase<
@@ -3344,7 +3338,7 @@ declare module '@bootstrap-styled/v4' {
   export type CardFooterProps = {
     className?: string;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const CardFooter: ComponentClass<CardFooterProps>;
@@ -3395,7 +3389,7 @@ declare module '@bootstrap-styled/v4' {
       '$enable-rounded'?: boolean;
       '$enable-hover-media-query'?: boolean;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const CardGroup: StyledComponentBase<
@@ -3406,7 +3400,7 @@ declare module '@bootstrap-styled/v4' {
   export type CardHeaderProps = {
     className?: string;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const CardHeader: ComponentClass<CardHeaderProps>;
@@ -3416,7 +3410,7 @@ declare module '@bootstrap-styled/v4' {
     tag?: ElementType;
     top?: boolean;
     bottom?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & React.ImgHTMLAttributes<HTMLImageElement>;
 
   export const CardImg: ComponentClass<CardImgProps>;
@@ -3424,7 +3418,7 @@ declare module '@bootstrap-styled/v4' {
   export type CardImgOverlayProps = {
     className?: string;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const CardImgOverlay: ComponentClass<CardImgOverlayProps>;
@@ -3432,8 +3426,8 @@ declare module '@bootstrap-styled/v4' {
   export type CardLinkProps = {
     className?: string;
     tag?: ElementType;
-    ref?: Function;
-    cssModule?: object;
+    ref?: React.LegacyRef;
+    cssModule?: Record<string, any>;
   } & React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
   export const CardLink: ComponentClass<CardLinkProps>;
@@ -3441,7 +3435,7 @@ declare module '@bootstrap-styled/v4' {
   export type CardSubtitleProps = {
     className?: string;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const CardSubtitle: ComponentClass<CardSubtitleProps>;
@@ -3449,7 +3443,7 @@ declare module '@bootstrap-styled/v4' {
   export type CardTextProps = {
     className?: string;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const CardText: ComponentClass<CardTextProps>;
@@ -3457,7 +3451,7 @@ declare module '@bootstrap-styled/v4' {
   export type CardTitleProps = {
     className?: string;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const CardTitle: ComponentClass<CardTitleProps>;
@@ -3475,7 +3469,7 @@ declare module '@bootstrap-styled/v4' {
 
   export type AccordionGroupProps = {
     activeAccordionName?: string | number | bool;
-    onChange?: Function;
+    onChange?: React.LegacyRef;
     'heading-component'?: boolean;
   } & HTMLAttributes<HTMLElement>;
 
@@ -3489,8 +3483,8 @@ declare module '@bootstrap-styled/v4' {
     group?: boolean;
     isOpen?: boolean;
     size?: 'sm' | 'lg' | '';
-    tether?: object | bool;
-    toggle?: Function;
+    tether?: Record<string, any> | bool;
+    toggle?: React.LegacyRef;
     theme?: {
       '$enable-rounded'?: boolean;
       '$enable-shadows'?: boolean;
@@ -3541,7 +3535,7 @@ declare module '@bootstrap-styled/v4' {
       '$input-height-lg'?: string;
     };
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Dropdown: StyledComponentBase<
@@ -3555,9 +3549,9 @@ declare module '@bootstrap-styled/v4' {
     disabled?: boolean;
     divider?: boolean;
     header?: boolean;
-    onClick?: Function;
+    onClick?: React.LegacyRef;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const DropdownItem: ComponentClass<DropdownItemProps>;
@@ -3565,7 +3559,7 @@ declare module '@bootstrap-styled/v4' {
   export type DropdownMenuProps = {
     children: ReactNode;
     className?: string;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
     right?: boolean;
     tag?: ElementType;
   } & AllHTMLAttributes<HTMLElement>;
@@ -3589,11 +3583,11 @@ declare module '@bootstrap-styled/v4' {
     caret?: boolean;
     'data-toggle'?: string;
     disabled?: boolean;
-    onClick?: Function;
+    onClick?: React.LegacyRef;
     nav?: boolean;
     split?: boolean;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const DropdownToggle: ComponentClass<DropdownToggleProps>;
@@ -3725,7 +3719,7 @@ declare module '@bootstrap-styled/v4' {
       '$custom-file-box-shadow'?: string;
       '$custom-file-button-color'?: string;
       '$custom-file-button-bg'?: string;
-      '$custom-file-text'?: object;
+      '$custom-file-text'?: Record<string, any>;
       '$form-icon-success-color'?: string;
       '$form-icon-success'?: string;
       '$form-icon-warning-color'?: string;
@@ -3734,9 +3728,9 @@ declare module '@bootstrap-styled/v4' {
       '$form-icon-danger'?: string;
     };
     inline?: boolean;
-    ref?: Function;
+    ref?: React.LegacyRef;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & React.FormHTMLAttributes<HTMLFormElement>;
 
   export const Form: StyledComponentBase<
@@ -3753,7 +3747,7 @@ declare module '@bootstrap-styled/v4' {
     };
     defaultChecked?: boolean;
     checked?: boolean;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & React.InputHTMLAttributes<HTMLInputElement>;
 
   export const FormCustom: ComponentClass<FormCustomProps>;
@@ -3762,7 +3756,7 @@ declare module '@bootstrap-styled/v4' {
     className?: string;
     children?: ReactNode;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const FormFeedback: ComponentClass<FormFeedbackProps>;
@@ -3773,11 +3767,11 @@ declare module '@bootstrap-styled/v4' {
     check?: boolean;
     color?: 'success' | 'warning' | 'danger' | '';
     disabled?: boolean;
-    ref?: Function;
+    ref?: React.LegacyRef;
     inline?: boolean;
     row?: boolean;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const FormGroup: ComponentClass<FormGroupProps>;
@@ -3788,7 +3782,7 @@ declare module '@bootstrap-styled/v4' {
     color?: 'success' | 'warning' | 'danger' | 'muted' | '';
     inline?: boolean;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const FormText: ComponentClass<FormTextProps>;
@@ -3814,7 +3808,7 @@ declare module '@bootstrap-styled/v4' {
     theme?: {
       '$enable-rounded'?: boolean;
       '$enable-hover-media-query'?: boolean;
-      '$grid-breakpoints'?: object;
+      '$grid-breakpoints'?: Record<string, any>;
       '$border-width'?: string;
       '$font-size-lg'?: string;
       '$body-bg'?: string;
@@ -3858,7 +3852,7 @@ declare module '@bootstrap-styled/v4' {
       '$navbar-inverse-toggler-bg'?: string;
       '$navbar-inverse-disabled-color'?: string;
     };
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const Navbar: StyledComponentBase<
@@ -3869,10 +3863,10 @@ declare module '@bootstrap-styled/v4' {
   export type NavDropdownProps = {
     className?: string;
     children?: ReactNode;
-    toggle: Function;
+    toggle: React.LegacyRef;
     isOpen: boolean;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const NavDropdown: FunctionComponent<NavDropdownProps>;
@@ -3880,7 +3874,7 @@ declare module '@bootstrap-styled/v4' {
   export type NavbarBrandProps = {
     className?: string;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const NavbarBrand: FunctionComponent<NavbarBrandProps>;
@@ -3892,7 +3886,7 @@ declare module '@bootstrap-styled/v4' {
     right?: boolean;
     left?: boolean;
     tag?: ElementType;
-    cssModule?: object;
+    cssModule?: Record<string, any>;
   } & AllHTMLAttributes<HTMLElement>;
 
   export const NavbarToggler: FunctionComponent<NavbarTogglerProps>;
@@ -3903,7 +3897,7 @@ declare module '@bootstrap-styled/v4' {
     className?: string;
     theme?: {
       '$grid-gutter-width'?: string;
-      '$container-max-widths'?: object;
+      '$container-max-widths'?: Record<string, any>;
       '$enable-grid-classes'?: boolean;
     };
     fluid?: boolean;

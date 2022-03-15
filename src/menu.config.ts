@@ -1,4 +1,4 @@
-import { NavItem } from '@/typings';
+import { NavItem } from '@/typings/typings';
 
 export const menuItems: NavItem[] = [
   { title: `Home`, url: `/` },

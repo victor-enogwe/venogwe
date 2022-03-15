@@ -1,10 +1,10 @@
-import Link from 'next/link';
-import { Button, Row, Col } from 'react-bootstrap';
-import { FaGhost } from '@react-icons/all-files/fa/FaGhost';
+import styles from '@/styles/404.module.scss';
+import { HeaderProps } from '@/typings/typings';
 import { pageClasses } from '@/utils/constants';
 import { getStaticProps } from '@/utils/functions';
-import { HeaderProps } from '@/typings';
-import styles from '@/styles/404.module.scss';
+import { FaGhost } from '@react-icons/all-files/fa/FaGhost';
+import Link from 'next/link';
+import { Button, Col, Row } from 'react-bootstrap';
 // import { useTranslations } from 'next-intl';
 
 export { getStaticProps };
@@ -39,12 +39,10 @@ export default function Error404({
               404
             </h2>
             <p>The page you&apos;re looking for does not exist{` `}</p>
-            <Link href="/">
-              <a>
-                <Button className="btn btn-success btn-sm w-100">
-                  Return Home
-                </Button>
-              </a>
+            <Link href="/" passHref>
+              <Button className="btn btn-success btn-sm w-100">
+                Return Home
+              </Button>
             </Link>
           </div>
         </Col>

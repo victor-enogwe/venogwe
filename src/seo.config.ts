@@ -1,17 +1,17 @@
-import { SEOConfig } from '@/typings';
+import { SEOConfig } from '@/typings/typings';
 
 export const seoConfig: SEOConfig = {
   default: {
     title: `Victor Enogwe`,
     defaultTitle: `Victor Enogwe`,
-    description: `Senior Software Engineer - Typescript/Javascript/Php/Python`,
+    description: `Software Engineer - Typescript/Javascript/Php/Python`,
     canonical: process.env.NEXT_PUBLIC_SITE_URL,
     openGraph: {
       type: `website`,
       locale: `en_IE`,
       url: process.env.NEXT_PUBLIC_SITE_URL,
       title: `Victor Enogwe`,
-      description: `senior software engineer - Javascript/Typescript`,
+      description: `Software Engineer - Javascript/Typescript`,
       // images: [
       //   {
       //     url: `${process.env.NEXT_PUBLIC_SITE_URL}/og-image-01.jpg`,

@@ -1,8 +1,36 @@
 import { GetStaticPropsContext } from 'next';
 import { useTranslations } from 'next-intl';
 import { DefaultSeoProps, NextSeoProps } from 'next-seo';
-import { ReactNode } from 'react';
+import { PropsWithoutRef, ReactNode } from 'react';
 import { PageSettings, Prefill, Utm } from 'react-calendly/typings/calendly';
+import { AnyAction } from 'redux';
+
+export type Theme = 'light' | 'dark';
+
+export type Locales = 'en-US' | 'fr' | 'nl-NL';
+
+export type VEProps<T = unknown> = StaticProps & T;
+
+export type VEState = Pick<VEProps, 'locale' | 'theme'>;
+
+export type CombinedActions =
+  | SwitchLocaleAction
+  | ToggleThemeAction
+  | ResetAction;
+
+export interface SwitchLocaleAction extends AnyAction {
+  type: 'SWITCH_LOCALE';
+  data: Locales;
+}
+
+export interface ToggleThemeAction extends AnyAction {
+  type: 'TOGGLE_THEME';
+  data: Theme;
+}
+
+export interface ResetAction extends AnyAction {
+  type: 'RESET_STATE';
+}
 
 export interface LayoutProps {
   children?: ReactNode;
@@ -32,18 +60,18 @@ export interface NavToggleProps {
   setToggleNav: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export interface NavMenuProps extends NavToggleProps {
-  siteName: string;
-  theme: 'light' | 'dark';
+export interface NavMenuProps
+  extends NavToggleProps,
+    Pick<StaticProps, 'siteName' | 'theme'> {
   items: NavItem[];
 }
 
 export interface HeaderProps extends NavToggleProps {
   siteName: string;
-  theme: 'light' | 'dark';
+  theme: Theme;
   translator: typeof useTranslations;
   toggleNav: boolean;
-  toggleTheme: React.Dispatch<React.SetStateAction<'light' | 'dark'>>;
+  toggleTheme: React.Dispatch<React.SetStateAction<Theme>>;
   setToggleNav: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -56,4 +84,11 @@ export interface CalendlySettings {
   pageSettings?: PageSettings;
   prefill?: Prefill;
   utm?: Utm;
+}
+
+export interface StaticProps extends PropsWithoutRef {
+  locale: Locales;
+  locales: Locales[];
+  siteName: string;
+  theme: Theme;
 }

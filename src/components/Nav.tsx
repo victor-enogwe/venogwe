@@ -1,36 +1,36 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
-import {
-  Offcanvas,
-  Navbar,
-  Nav,
-  NavDropdown,
-  OverlayTrigger,
-  CloseButton,
-  Tooltip,
-} from 'react-bootstrap';
+import { NavItem, NavMenuProps } from '@/typings/typings';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { NavItem, NavMenuProps } from '@/typings';
+import React, { Fragment } from 'react';
+import {
+  CloseButton,
+  Nav,
+  Navbar,
+  NavDropdown,
+  Offcanvas,
+  OverlayTrigger,
+  Tooltip,
+} from 'react-bootstrap';
 import { Head } from './Header';
 import Social from './Social';
 
 export function NavItems({
   items,
-  parent = true,
+  isParent = true,
 }: {
   items: NavItem[];
-  parent: boolean;
+  isParent: boolean;
 }) {
   const { route } = useRouter();
-  const Wrapper = parent ? Nav.Item : NavDropdown.Item;
+  const Wrapper = isParent ? Nav.Item : NavDropdown.Item;
 
   return (
     <>
       {items.map(
         ({ children = [], title, description = ``, url = `` }, index) => (
-          <>
-            <Wrapper as="li" key={`${title}-${index}`} className="text-start">
+          <Fragment key={`${title}-${index}`}>
+            <Wrapper as="li" className="text-start">
               <Link href={url ?? `#`} passHref>
                 <Nav.Link
                   className="d-flex flex-column"
@@ -46,7 +46,7 @@ export function NavItems({
                   )}
                   {children.length > 0 ? (
                     <NavDropdown title={title}>
-                      <NavItems items={children} parent={false} />
+                      <NavItems items={children} isParent={false} />
                     </NavDropdown>
                   ) : (
                     <></>
@@ -54,10 +54,10 @@ export function NavItems({
                 </Nav.Link>
               </Link>
             </Wrapper>
-            {!parent && children.length !== index - 1 && (
+            {!isParent && children.length !== index - 1 && (
               <NavDropdown.Divider />
             )}
-          </>
+          </Fragment>
         ),
       )}
     </>
@@ -98,7 +98,7 @@ export function NavMenu({
               as="ul"
               className="flex-column flex-sm-row"
             >
-              <NavItems items={items} parent />
+              <NavItems items={items} isParent />
             </Nav>
           </Navbar.Collapse>
           <Social className="d-sm-none" siteName={siteName} />

@@ -5,7 +5,7 @@ import { FiTwitter } from '@react-icons/all-files/fi/FiTwitter';
 import { SiGmail } from '@react-icons/all-files/si/SiGmail';
 import { FaLinkedinIn } from '@react-icons/all-files/fa/FaLinkedinIn';
 import { FaRegCalendarCheck } from '@react-icons/all-files/fa/FaRegCalendarCheck';
-import { CalendlySettings } from '@/typings';
+import { CalendlySettings } from '@/typings/typings';
 
 export default function Social({
   siteName,

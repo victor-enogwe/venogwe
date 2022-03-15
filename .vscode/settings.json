@@ -1,5 +1,69 @@
 {
+  "editor.autoIndent": "full",
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorStyle": "line",
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.renderWhitespace": "none",
+  "editor.trimAutoWhitespace": true,
+  "editor.tabCompletion": "on",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
+  "editor.rulers": [
+    140
+  ],
+  "explorer.confirmDelete": true,
+  "explorer.confirmDragAndDrop": true,
+  "git.autofetch": true,
+  "git.enableSmartCommit": true,
+  "git.ignoreLimitWarning": true,
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "typescript.format.semicolons": "remove",
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "workbench.colorTheme": "Material Theme Darker High Contrast",
+  "workbench.iconTheme": "material-icon-theme",
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "eslint.codeActionsOnSave.mode": "problems",
+  "eslint.run": "onSave",
+  "eslint.nodePath": "./node_modules",
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "html"
+  ],
+  "eslint.probe": [
+    "javascript",
+    "typescript",
+    "html"
+  ],
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.svn": true,
+    "**/CVS": true,
+    "dist": false
+  },
+  "emmet.includeLanguages": {
+    "ejs": "html"
+  },
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "git.enableCommitSigning": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.packageManager": "yarn",
+  "breadcrumbs.enabled": true,
+  "cSpell.ignoreWords": [],
   "cSpell.words": [
+    "Aroot",
     "Attachements",
     "autohide",
     "CALENDLY",
@@ -12,9 +76,12 @@
     "haspopup",
     "HTMLEHTML",
     "LINKEDIN",
+    "middlewares",
     "monospace",
     "Navs",
     "nextjs",
+    "persistoid",
+    "persistor",
     "Plex",
     "prefill",
     "Proptypes",

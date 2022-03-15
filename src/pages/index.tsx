@@ -1,9 +1,9 @@
-import Link from 'next/link';
-import { Button, Row, Col } from 'react-bootstrap';
+import Social from '@/components/Social';
+import { HeaderProps, VEProps } from '@/typings/typings';
 import { pageClasses } from '@/utils/constants';
 import { getStaticProps } from '@/utils/functions';
-import { HeaderProps } from '@/typings';
-import Social from '@/components/Social';
+import Link from 'next/link';
+import { Button, Col, Row } from 'react-bootstrap';
 // import { useTranslations } from 'next-intl';
 
 export { getStaticProps };
@@ -11,10 +11,7 @@ export { getStaticProps };
 export default function Index({
   siteName,
   theme,
-}: {
-  theme: HeaderProps['theme'];
-  siteName: string;
-}): JSX.Element {
+}: VEProps<{ theme: HeaderProps['theme'] }>): JSX.Element {
   // const translations = useTranslations(`Index`);
   const altTheme = theme === `dark` ? `light` : `dark`;
 
