@@ -1,21 +1,19 @@
+import { LocalState, LocalStateKeys } from '@/typings/typings';
+import { DARK_THEME, LIGHT_THEME } from '@/utils/constants';
 import {
   BootstrapProviderProps,
   defaultProps,
 } from '@bootstrap-styled/provider';
-import { UserTheme, makeTheme } from 'bootstrap-styled';
-import { useState, useEffect } from 'react';
-import omitBy from 'lodash.omitby';
+import { useCookies } from 'react-cookie';
 import { GlobalStyle } from './GlobalStyle';
 
 export function BootstrapProvider(
   props: BootstrapProviderProps = defaultProps,
 ) {
-  const [theme, setTheme] = useState<UserTheme>(props.theme);
-
-  useEffect(
-    () => setTheme(makeTheme(omitBy(props.theme, (key) => key[0] === `_`))),
-    [props.theme],
-  );
+  const [{ theme: colorScheme }] = useCookies<LocalStateKeys, LocalState>([
+    `theme`,
+  ]);
+  const theme = colorScheme === `dark` ? DARK_THEME : LIGHT_THEME;
 
   return (
     <>

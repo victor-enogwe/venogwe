@@ -1,10 +1,8 @@
 const withPWA = require('next-pwa');
+const withTM = require('next-transpile-modules');
 const runtimeCaching = require('next-pwa/cache');
 
-module.exports = require('next-transpile-modules')([
-  'bootstrap-styled',
-  '@bootstrap-styled/provider',
-])(
+module.exports = withTM(['bootstrap-styled', '@bootstrap-styled/provider'])(
   withPWA({
     trailingSlash: true,
     reactStrictMode: true,

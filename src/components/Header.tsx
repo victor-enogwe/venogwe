@@ -1,62 +1,24 @@
-import Image from 'next/image';
-import classNames from 'classnames';
-import Link from 'next/link';
-import { ButtonGroup, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import styles from '@/styles/header.module.scss';
+import {
+  LocalState,
+  LocalStateKeys,
+  VEProps,
+  WithCookiesProps,
+} from '@/typings/typings';
 import { BsFillBrightnessHighFill } from '@react-icons/all-files/bs/BsFillBrightnessHighFill';
 import { BsMoon } from '@react-icons/all-files/bs/BsMoon';
-import styles from '@/styles/header.module.scss';
-import { HeaderProps } from '@/typings/typings';
-import profilePic from '../../public/icon.png';
-
-export function Head({
-  theme,
-  siteName,
-}: {
-  theme: HeaderProps['theme'];
-  siteName: string;
-}) {
-  const altTheme = theme === `dark` ? `light` : `dark`;
-
-  return (
-    <div
-      className={classNames({
-        'd-flex': true,
-        'flex-row': true,
-        'flex-nowrap': true,
-        'justify-content-between': true,
-        'align-items-center': true,
-      })}
-    >
-      <div className="d-flex justify-content-center align-items-center rounded-img pe-2">
-        <Image
-          className="img-fluid img-thumbnail rounded"
-          src={profilePic}
-          alt={`profile picture of ${siteName}`}
-          width={48}
-          height={48}
-        />
-      </div>
-      <Link href="/" passHref>
-        <span className="d-flex text-decoration-none">
-          <div className={`d-flex flex-column text-${altTheme} fs-5`}>
-            <span>{siteName}</span>
-            <span className="fs-6 fw-lighter fst-italic">
-              <small className="smaller text-success">Software Engineer</small>
-            </span>
-          </div>
-        </span>
-      </Link>
-    </div>
-  );
-}
+import classNames from 'classnames';
+import { Button, ButtonGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useCookies } from 'react-cookie';
+import { Head } from './Head';
 
 export function Header({
   siteName,
-  theme,
-  toggleTheme,
-  toggleNav,
-  setToggleNav,
-}: HeaderProps): JSX.Element {
+}: WithCookiesProps<Pick<VEProps, 'siteName'>>): JSX.Element {
+  const [{ theme }, setCookie] = useCookies<LocalStateKeys, LocalState>([
+    `theme`,
+    `navState`,
+  ]);
   const altTheme = theme === `dark` ? `light` : `dark`;
 
   return (
@@ -71,7 +33,7 @@ export function Header({
         'px-2': true,
       })}
     >
-      <Head siteName={siteName} theme={theme} />
+      <Head siteName={siteName} />
       <ButtonGroup aria-label="Menu Actions">
         <OverlayTrigger
           placement="top"
@@ -83,7 +45,7 @@ export function Header({
             variant=""
             className={`text-${altTheme}`}
             aria-label="Switch Theme"
-            onClick={() => toggleTheme(altTheme)}
+            onClick={() => setCookie(`theme`, altTheme)}
           >
             {theme === `light` ? (
               <BsFillBrightnessHighFill
@@ -124,7 +86,7 @@ export function Header({
               data-bs-toggle="navigation"
               data-bs-target="#navigation"
               aria-controls="navigation"
-              onClick={() => setToggleNav(!toggleNav)}
+              onClick={() => setCookie(`navState`, `opened`)}
             >
               <div
                 className={classNames({

@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { CombinedActions, Locales, VEProps, VEState } from '@/typings/typings';
-import { CookieAttributes } from 'js-cookie';
+import { Locales, VEProps } from '@/typings/typings';
+import { defaultState } from '@/utils/constants';
 import get from 'lodash.get';
+import set from 'lodash.set';
 import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
@@ -9,12 +10,10 @@ import {
   GetStaticPropsContext,
 } from 'next';
 import { IntlError, IntlErrorCode } from 'next-intl';
-import { CookieSerializeOptions } from 'next/dist/server/web/types';
+import { NextApiRequestCookies } from 'next/dist/server/api-utils';
 import { NextRequest, NextResponse } from 'next/server';
 import { ParsedUrlQuery } from 'querystring';
-import { Store } from 'redux';
-import { persistStore } from 'redux-persist';
-import { Persistor } from 'redux-persist/es/types';
+import Cookies, { CookieChangeOptions } from 'universal-cookie';
 
 export async function getStaticPaths(): Promise<
   GetStaticPathsResult<ParsedUrlQuery>
@@ -49,31 +48,24 @@ export function i18nMessageFallback({
   }
 }
 
-export async function configurePersistor(
-  store: Store<VEState, CombinedActions>,
-): Promise<Persistor> {
-  return new Promise((resolve) => {
-    const persistor = persistStore(store, {}, () => resolve(persistor));
-  });
-}
-
 export async function getStaticProps(
   context: GetStaticPropsContext,
 ): Promise<{ props: VEProps }> {
-  const siteName = process.env.NEXT_PUBLIC_SITE_NAME as string;
-  const locales = get(context, `locales`) as Locales[];
-  const envLocale = get(process.env, `NEXT_PUBLIC_DEFAULT_LOCALE`, ``);
-  const defaultLocale = get(context, `defaultLocale`, envLocale);
-  const locale = get(context, `locale`, defaultLocale) as Locales;
-  const theme = `dark`;
+  const siteName = get(process.env, `NEXT_PUBLIC_SITE_NAME`, ``);
+  const locales = get(context, `locales`, []) as Locales[];
+  const props: VEProps = { locales, siteName };
 
-  return Promise.resolve({ props: { locale, locales, siteName, theme } });
+  return Promise.resolve({ props });
 }
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext,
-): Promise<GetServerSidePropsResult<unknown>> {
-  const { res, resolvedUrl } = context;
+): Promise<
+  GetServerSidePropsResult<
+    VEProps<{ resolvedUrl: string; cookies: NextApiRequestCookies }>
+  >
+> {
+  const { req, res, resolvedUrl } = context;
   const { props } = await getStaticProps(context);
 
   res.setHeader(
@@ -81,30 +73,39 @@ export async function getServerSideProps(
     `public, s-maxage=10, stale-while-revalidate=59`,
   );
 
-  return {
-    props: {
-      title: process.env.NEXT_PUBLIC_SITE_NAME,
-      resolvedUrl,
-      ...props,
-    },
+  return { props: { resolvedUrl, cookies: req.cookies, ...props } };
+}
+
+export function onCookieChange(_request: NextRequest, response: NextResponse) {
+  return (event: CookieChangeOptions) => {
+    if (!response.cookies || get(response, `headersSent`)) return;
+
+    const { value, name, options } = event;
+
+    if (value === undefined) {
+      response.clearCookie(name, options);
+    } else {
+      const maxAge = options?.maxAge ? options?.maxAge * 1000 : undefined;
+      response.cookie(name, value, { ...options, maxAge });
+    }
   };
 }
 
-export function Cookies(request: NextRequest, response: NextResponse) {
-  return {
-    get: (key: string | undefined | null) =>
-      key ? get(request.cookies, key) : undefined,
-    set: (
-      name: string,
-      value: string,
-      attributes?: CookieAttributes,
-    ): string => {
-      response.cookie(
-        name,
-        value,
-        attributes as unknown as CookieSerializeOptions,
-      );
-      return value;
-    },
-  };
+export async function cookieStorageMiddleware(
+  request: NextRequest,
+  response: NextResponse,
+): Promise<NextResponse> {
+  const localState = Object.assign(defaultState, request.cookies);
+
+  Object.entries(localState).forEach(([name, value]) =>
+    onCookieChange(request, response)({ name, value }),
+  );
+
+  set(request, `universalCookies`, new Cookies(localState));
+
+  get(request, `universalCookies`).addChangeListener(
+    onCookieChange(request, response),
+  );
+
+  return response;
 }

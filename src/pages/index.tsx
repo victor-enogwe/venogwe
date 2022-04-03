@@ -1,18 +1,15 @@
 import Social from '@/components/Social';
-import { HeaderProps, VEProps } from '@/typings/typings';
+import { LocalState, LocalStateKeys, VEProps } from '@/typings/typings';
 import { pageClasses } from '@/utils/constants';
-import { getStaticProps } from '@/utils/functions';
+import { getServerSideProps } from '@/utils/functions';
 import Link from 'next/link';
 import { Button, Col, Row } from 'react-bootstrap';
-// import { useTranslations } from 'next-intl';
+import { useCookies } from 'react-cookie';
 
-export { getStaticProps };
+export { getServerSideProps };
 
-export default function Index({
-  siteName,
-  theme,
-}: VEProps<{ theme: HeaderProps['theme'] }>): JSX.Element {
-  // const translations = useTranslations(`Index`);
+export default function Index({ siteName }: VEProps): JSX.Element {
+  const [{ theme }] = useCookies<LocalStateKeys, LocalState>([`theme`]);
   const altTheme = theme === `dark` ? `light` : `dark`;
 
   return (

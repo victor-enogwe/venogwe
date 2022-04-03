@@ -1,5 +1,6 @@
+import get from 'lodash.get';
 import { DocumentContext } from 'next/dist/shared/lib/utils';
-import Document, { Html, Head, NextScript, Main } from 'next/document';
+import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
 class MyDocument extends Document {
@@ -30,8 +31,9 @@ class MyDocument extends Document {
   }
 
   render() {
-    // eslint-disable-next-line no-underscore-dangle
-    const { locale } = this.props.__NEXT_DATA__.props.pageProps;
+    const {
+      cookies: { locale },
+    } = get(this.props, `__NEXT_DATA__.props.pageProps`);
 
     return (
       <Html lang={locale}>

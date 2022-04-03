@@ -1,22 +1,18 @@
 import styles from '@/styles/404.module.scss';
-import { HeaderProps } from '@/typings/typings';
+import { LocalState, LocalStateKeys } from '@/typings/typings';
 import { pageClasses } from '@/utils/constants';
 import { getStaticProps } from '@/utils/functions';
 import { FaGhost } from '@react-icons/all-files/fa/FaGhost';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Button, Col, Row } from 'react-bootstrap';
-// import { useTranslations } from 'next-intl';
+import { useCookies } from 'react-cookie';
 
 export { getStaticProps };
 
-export default function Error404({
-  route,
-  theme,
-}: {
-  theme: HeaderProps['theme'];
-  route: string;
-}): JSX.Element {
-  // const translations = useTranslations(`Index`);
+export default function Error404(): JSX.Element {
+  const { route } = useRouter();
+  const [{ theme }] = useCookies<LocalStateKeys, LocalState>([`theme`]);
   const altTheme = theme === `dark` ? `light` : `dark`;
 
   return (

@@ -1,36 +1,26 @@
 import { GetStaticPropsContext } from 'next';
-import { useTranslations } from 'next-intl';
 import { DefaultSeoProps, NextSeoProps } from 'next-seo';
-import { PropsWithoutRef, ReactNode } from 'react';
+import { CookieSerializeOptions } from 'next/dist/server/web/types';
+import { ReactNode } from 'react';
 import { PageSettings, Prefill, Utm } from 'react-calendly/typings/calendly';
-import { AnyAction } from 'redux';
+import { ReactCookieProps } from 'react-cookie';
 
 export type Theme = 'light' | 'dark';
 
 export type Locales = 'en-US' | 'fr' | 'nl-NL';
 
-export type VEProps<T = unknown> = StaticProps & T;
+export type NavState = 'opened' | 'closed';
 
-export type VEState = Pick<VEProps, 'locale' | 'theme'>;
+export type VEProps<T = StaticProps> = StaticProps & T;
+
+export type WithCookiesProps<T = Record<string, string>> = ReactCookieProps & T;
+
+export type LocalStateKeys = keyof LocalState;
 
 export type CombinedActions =
   | SwitchLocaleAction
   | ToggleThemeAction
   | ResetAction;
-
-export interface SwitchLocaleAction extends AnyAction {
-  type: 'SWITCH_LOCALE';
-  data: Locales;
-}
-
-export interface ToggleThemeAction extends AnyAction {
-  type: 'TOGGLE_THEME';
-  data: Theme;
-}
-
-export interface ResetAction extends AnyAction {
-  type: 'RESET_STATE';
-}
 
 export interface LayoutProps {
   children?: ReactNode;
@@ -55,28 +45,8 @@ export interface NavItem {
   children?: NavItem[];
 }
 
-export interface NavToggleProps {
-  toggleNav: boolean;
-  setToggleNav: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export interface NavMenuProps
-  extends NavToggleProps,
-    Pick<StaticProps, 'siteName' | 'theme'> {
+export interface NavMenuProps extends Pick<StaticProps, 'siteName'> {
   items: NavItem[];
-}
-
-export interface HeaderProps extends NavToggleProps {
-  siteName: string;
-  theme: Theme;
-  translator: typeof useTranslations;
-  toggleNav: boolean;
-  toggleTheme: React.Dispatch<React.SetStateAction<Theme>>;
-  setToggleNav: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export interface FooterProps {
-  translator: typeof useTranslations;
 }
 
 export interface CalendlySettings {
@@ -86,9 +56,23 @@ export interface CalendlySettings {
   utm?: Utm;
 }
 
-export interface StaticProps extends PropsWithoutRef {
+export interface LocalState {
+  theme: Theme;
   locale: Locales;
+  navState: NavState;
+}
+
+export interface StaticProps {
   locales: Locales[];
   siteName: string;
-  theme: Theme;
+}
+
+export interface CookieStatic {
+  get: (key: string) => string | null;
+  set: (
+    name: string,
+    value: string,
+    attributes?: CookieSerializeOptions,
+  ) => void;
+  expire: (key: string, options?: CookieSerializeOptions) => void;
 }

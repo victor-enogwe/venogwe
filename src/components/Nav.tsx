@@ -1,79 +1,35 @@
-/* eslint-disable react/no-array-index-key */
-import { NavItem, NavMenuProps } from '@/typings/typings';
-import Link from 'next/link';
+import { LocalState, LocalStateKeys, NavMenuProps } from '@/typings/typings';
 import { useRouter } from 'next/router';
-import React, { Fragment } from 'react';
+import React, { useEffect } from 'react';
 import {
   CloseButton,
   Nav,
   Navbar,
-  NavDropdown,
   Offcanvas,
   OverlayTrigger,
   Tooltip,
 } from 'react-bootstrap';
-import { Head } from './Header';
+import { useCookies } from 'react-cookie';
+import { Head } from './Head';
+import { NavItems } from './NavItems';
 import Social from './Social';
 
-export function NavItems({
-  items,
-  isParent = true,
-}: {
-  items: NavItem[];
-  isParent: boolean;
-}) {
-  const { route } = useRouter();
-  const Wrapper = isParent ? Nav.Item : NavDropdown.Item;
+export function NavMenu({ siteName, items }: NavMenuProps): JSX.Element {
+  const { events } = useRouter();
+  const [{ theme, navState = `closed` }, setCookie] = useCookies<
+    LocalStateKeys,
+    LocalState
+  >([`theme`, `navState`]);
 
-  return (
-    <>
-      {items.map(
-        ({ children = [], title, description = ``, url = `` }, index) => (
-          <Fragment key={`${title}-${index}`}>
-            <Wrapper as="li" className="text-start">
-              <Link href={url ?? `#`} passHref>
-                <Nav.Link
-                  className="d-flex flex-column"
-                  active={route === url}
-                  title={description ?? title}
-                  href={url ?? `#`}
-                >
-                  {title}
-                  {description.length > 0 ? (
-                    <small>{description}</small>
-                  ) : (
-                    <></>
-                  )}
-                  {children.length > 0 ? (
-                    <NavDropdown title={title}>
-                      <NavItems items={children} isParent={false} />
-                    </NavDropdown>
-                  ) : (
-                    <></>
-                  )}
-                </Nav.Link>
-              </Link>
-            </Wrapper>
-            {!isParent && children.length !== index - 1 && (
-              <NavDropdown.Divider />
-            )}
-          </Fragment>
-        ),
-      )}
-    </>
+  useEffect(
+    () =>
+      events.on(`routeChangeComplete`, () => setCookie(`navState`, `closed`)),
+    [navState, events, setCookie],
   );
-}
 
-export function NavMenu({
-  siteName,
-  theme,
-  items,
-  toggleNav = false,
-  setToggleNav,
-}: NavMenuProps): JSX.Element {
   return (
     <Offcanvas
-      show={toggleNav}
+      show={navState === `opened`}
       backdrop={false}
       id="navigation"
       aria-labelledby="navigation"
@@ -81,14 +37,13 @@ export function NavMenu({
       className={`bg-${theme} px-3`}
     >
       <Offcanvas.Header className="d-flex container h-100 justify-content-start justify-content-md-between">
-        {/* <Container> */}
         <Navbar
           bg={theme}
           variant={theme}
           className="flex-column flex-sm-row flex-fill h-100 justify-content-end align-items-start align-items-sm-center col-11"
         >
           <Navbar.Brand className="flex-start">
-            <Head siteName={siteName} theme={theme} />
+            <Head siteName={siteName} />
           </Navbar.Brand>
           <Navbar.Collapse className="flex-fill h-100 justify-content-sm-end me-sm-4">
             <Nav
@@ -112,7 +67,7 @@ export function NavMenu({
               variant={theme === `dark` ? `white` : undefined}
               className="btn btn-lg justify-content-end"
               aria-label="close navigation"
-              onClick={() => setToggleNav(!toggleNav)}
+              onClick={() => setCookie(`navState`, `closed`)}
             />
           </OverlayTrigger>
         </div>

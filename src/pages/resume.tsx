@@ -1,14 +1,11 @@
 import { pageClasses } from '@/utils/constants';
-import { getStaticProps } from '@/utils/functions';
+import { getServerSideProps } from '@/utils/functions';
 import { FaFilePdf } from '@react-icons/all-files/fa/FaFilePdf';
 import { Button, Row, Tab, Tabs } from 'react-bootstrap';
-// import { useTranslations } from 'next-intl';
 
-export { getStaticProps };
+export { getServerSideProps };
 
 export default function Resume(): JSX.Element {
-  // const translations = useTranslations(`Index`);
-
   return (
     <main className={`${pageClasses} align-items-center`}>
       <Row className="w-100">
@@ -29,7 +26,7 @@ export default function Resume(): JSX.Element {
             </Row>
             <Button
               title="download resume"
-              className="btn btn-success btn-sm shadow-lg float-end rounded rounded-circle position-absolute top-50 end-0 translate-middle-y"
+              className="btn btn-success btn-sm shadow-lg float-end rounded-circle position-absolute top-50 end-0 translate-middle-y"
             >
               <FaFilePdf />
             </Button>

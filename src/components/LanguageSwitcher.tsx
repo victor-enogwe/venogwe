@@ -1,5 +1,6 @@
-import { Locales, VEProps } from '@/typings/typings';
-import { BaseSyntheticEvent, Dispatch, SetStateAction } from 'react';
+import { LocalState, LocalStateKeys, VEProps } from '@/typings/typings';
+import { BaseSyntheticEvent } from 'react';
+import { useCookies } from 'react-cookie';
 import styled from 'styled-components';
 
 const Select = styled.select`
@@ -7,18 +8,17 @@ const Select = styled.select`
 `;
 
 export function LanguageSwitcher({
-  locale,
   locales,
-  theme,
-  setLocale,
-}: Omit<VEProps, 'siteName'> & {
-  setLocale: Dispatch<SetStateAction<Locales>>;
-}): JSX.Element {
+}: Pick<VEProps, 'locales'>): JSX.Element {
+  const [{ locale, theme }, setCookie] = useCookies<LocalStateKeys, LocalState>(
+    [`locale`, `theme`],
+  );
+
   return (
     <Select
       className={`form-select form-select-sm bg-${theme} position-absolute top-0 end-0 me-3 border-0 rounded-0`}
       onChange={({ currentTarget, target }: BaseSyntheticEvent) =>
-        setLocale(currentTarget.value ?? target.value)
+        setCookie(`locale`, currentTarget.value ?? target.value)
       }
       defaultValue={locale}
     >

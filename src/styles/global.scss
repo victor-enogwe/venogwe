@@ -18,17 +18,12 @@ main {
   }
 }
 
-footer {
-  // flex: 1;
-  // height: 45px;
-}
-
 .secondary_font {
   font-family: $secondary_font;
 }
 
 .smaller {
-  font-size: 0.675em;
+  font-size: 0.635em;
 }
 
 .lead-text {
@@ -42,17 +37,6 @@ footer {
 
 .tab-pane {
   position: relative;
-}
-
-.btn-fab {
-  // border-radius: ;
-}
-
-.rounded-img {
-  div {
-    border: none;
-    border-radius: 50%;
-  }
 }
 
 mark {
