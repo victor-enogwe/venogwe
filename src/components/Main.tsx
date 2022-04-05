@@ -7,7 +7,7 @@ import { NavMenu } from '@/components/Nav';
 import { menuItems } from '@/menu.config';
 import { seoConfig } from '@/seo.config';
 import { LocalState, LocalStateKeys, VEProps } from '@/typings/typings';
-import { DARK_THEME, LIGHT_THEME } from '@/utils/constants';
+import { DARK_THEME, LIGHT_THEME } from '@/utils/constants.client';
 import { i18nMessageFallback, onI18NError } from '@/utils/functions';
 import { SkipNavContent, SkipNavLink } from '@reach/skip-nav';
 import '@reach/skip-nav/styles.css';
@@ -16,6 +16,7 @@ import { NextIntlProvider } from 'next-intl';
 import { NextSeo } from 'next-seo';
 import { MetaTag } from 'next-seo/lib/types';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
 
@@ -28,22 +29,28 @@ export function Main({
 }) {
   const { locales, siteName } = pageProps;
   const { route } = useRouter();
+  const [translations, setTranslations] = useState({});
   const [{ theme, locale }] = useCookies<LocalStateKeys, LocalState>([
     `theme`,
     `locale`,
   ]);
-  const messages = require(`@/i18n/${locale}.json`);
   const styles = theme === `dark` ? DARK_THEME : LIGHT_THEME;
   const additionalMetaTags: MetaTag[] = [
     { name: `theme-color`, content: styles[`$body-bg`] },
   ];
   const seo = { ...seoConfig.default, additionalMetaTags, ...seoConfig[route] };
 
+  useEffect(() => {
+    import(`@/i18n/${locale}.json`).then((module) =>
+      setTranslations(module.default),
+    );
+  }, [locale]);
+
   return (
     <BootstrapProvider theme={styles} injectGlobal reset>
       <NextSeo {...seo} />
       <NextIntlProvider
-        messages={messages}
+        messages={translations}
         locale={locale}
         onError={onI18NError}
         getMessageFallback={i18nMessageFallback}

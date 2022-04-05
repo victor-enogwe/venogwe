@@ -1,6 +1,6 @@
 import Social from '@/components/Social';
 import { LocalState, LocalStateKeys, VEProps } from '@/typings/typings';
-import { pageClasses } from '@/utils/constants';
+import { pageClasses } from '@/utils/constants.client';
 import { getServerSideProps } from '@/utils/functions';
 import Link from 'next/link';
 import { Button, Col, Row } from 'react-bootstrap';

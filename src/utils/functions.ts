@@ -1,19 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Locales, VEProps } from '@/typings/typings';
-import { defaultState } from '@/utils/constants';
+import { Locales, LocalState, VEProps } from '@/typings/typings';
 import get from 'lodash.get';
-import set from 'lodash.set';
 import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
   GetStaticPathsResult,
   GetStaticPropsContext,
+  NextPageContext,
 } from 'next';
 import { IntlError, IntlErrorCode } from 'next-intl';
 import { NextApiRequestCookies } from 'next/dist/server/api-utils';
-import { NextRequest, NextResponse } from 'next/server';
 import { ParsedUrlQuery } from 'querystring';
-import Cookies, { CookieChangeOptions } from 'universal-cookie';
+import { defaultState } from './constants';
 
 export async function getStaticPaths(): Promise<
   GetStaticPathsResult<ParsedUrlQuery>
@@ -48,12 +46,16 @@ export function i18nMessageFallback({
   }
 }
 
-export async function getStaticProps(
-  context: GetStaticPropsContext,
-): Promise<{ props: VEProps }> {
+export async function getStaticProps(context: GetStaticPropsContext): Promise<{
+  props: VEProps<{ cookies: LocalState }>;
+}> {
   const siteName = get(process.env, `NEXT_PUBLIC_SITE_NAME`, ``);
   const locales = get(context, `locales`, []) as Locales[];
-  const props: VEProps = { locales, siteName };
+  const props = {
+    locales,
+    siteName,
+    cookies: defaultState,
+  };
 
   return Promise.resolve({ props });
 }
@@ -61,11 +63,9 @@ export async function getStaticProps(
 export async function getServerSideProps(
   context: GetServerSidePropsContext,
 ): Promise<
-  GetServerSidePropsResult<
-    VEProps<{ resolvedUrl: string; cookies: NextApiRequestCookies }>
-  >
+  GetServerSidePropsResult<VEProps<{ cookies: NextApiRequestCookies }>>
 > {
-  const { req, res, resolvedUrl } = context;
+  const { req, res } = context;
   const { props } = await getStaticProps(context);
 
   res.setHeader(
@@ -73,39 +73,15 @@ export async function getServerSideProps(
     `public, s-maxage=10, stale-while-revalidate=59`,
   );
 
-  return { props: { resolvedUrl, cookies: req.cookies, ...props } };
-}
-
-export function onCookieChange(_request: NextRequest, response: NextResponse) {
-  return (event: CookieChangeOptions) => {
-    if (!response.cookies || get(response, `headersSent`)) return;
-
-    const { value, name, options } = event;
-
-    if (value === undefined) {
-      response.clearCookie(name, options);
-    } else {
-      const maxAge = options?.maxAge ? options?.maxAge * 1000 : undefined;
-      response.cookie(name, value, { ...options, maxAge });
-    }
+  return {
+    props: { ...props, cookies: { ...defaultState, ...req.cookies } },
   };
 }
 
-export async function cookieStorageMiddleware(
-  request: NextRequest,
-  response: NextResponse,
-): Promise<NextResponse> {
-  const localState = Object.assign(defaultState, request.cookies);
-
-  Object.entries(localState).forEach(([name, value]) =>
-    onCookieChange(request, response)({ name, value }),
-  );
-
-  set(request, `universalCookies`, new Cookies(localState));
-
-  get(request, `universalCookies`).addChangeListener(
-    onCookieChange(request, response),
-  );
-
-  return response;
+export async function getInitialProps(
+  context: NextPageContext,
+): Promise<
+  GetServerSidePropsResult<VEProps<{ cookies: NextApiRequestCookies }>>
+> {
+  return getServerSideProps(context as unknown as GetServerSidePropsContext);
 }

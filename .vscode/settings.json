@@ -10,6 +10,7 @@
   "editor.trimAutoWhitespace": true,
   "editor.tabCompletion": "on",
   "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.insertSpaces": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": true
@@ -22,8 +23,8 @@
   "git.autofetch": true,
   "git.enableSmartCommit": true,
   "git.ignoreLimitWarning": true,
-  "typescript.tsdk": "./node_modules/typescript/lib",
-  "typescript.format.semicolons": "remove",
+  "typescript.tsdk": "<rootDir>/node_modules/typescript/lib",
+  "typescript.format.semicolons": "insert",
   "typescript.preferences.quoteStyle": "single",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "workbench.colorTheme": "Material Theme Darker High Contrast",
@@ -31,15 +32,17 @@
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
   "eslint.codeActionsOnSave.mode": "problems",
   "eslint.run": "onSave",
-  "eslint.nodePath": "./node_modules",
+  "eslint.nodePath": "<rootDir>/node_modules",
   "eslint.validate": [
     "javascript",
     "typescript",
+    "json",
     "html"
   ],
   "eslint.probe": [
     "javascript",
     "typescript",
+    "json",
     "html"
   ],
   "files.exclude": {
@@ -60,6 +63,7 @@
   "eslint.format.enable": true,
   "eslint.lintTask.enable": true,
   "eslint.packageManager": "yarn",
+  "prettier.configPath": "<rootDir>/.prettierrc",
   "breadcrumbs.enabled": true,
   "cSpell.ignoreWords": [],
   "cSpell.words": [
@@ -77,6 +81,7 @@
     "Fira",
     "haspopup",
     "HTMLEHTML",
+    "keyof",
     "LINKEDIN",
     "middlewares",
     "monospace",

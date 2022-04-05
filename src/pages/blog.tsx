@@ -1,4 +1,4 @@
-import { pageClasses } from '@/utils/constants';
+import { pageClasses } from '@/utils/constants.client';
 import { getServerSideProps } from '@/utils/functions';
 import { Row } from 'react-bootstrap';
 

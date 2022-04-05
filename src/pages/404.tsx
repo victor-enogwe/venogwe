@@ -1,6 +1,6 @@
 import styles from '@/styles/404.module.scss';
 import { LocalState, LocalStateKeys } from '@/typings/typings';
-import { pageClasses } from '@/utils/constants';
+import { pageClasses } from '@/utils/constants.client';
 import { getStaticProps } from '@/utils/functions';
 import { FaGhost } from '@react-icons/all-files/fa/FaGhost';
 import Link from 'next/link';

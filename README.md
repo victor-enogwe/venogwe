@@ -1,4 +1,4 @@
-# Victor Enogwe
+# Victor Eñogwe
 
 A TypeScript starter for Next.js that includes all you need to build an amazing portfolio 🔥
 
@@ -40,4 +40,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ---
 
-Made with ♥ by Victor Enogwe
+Made with ♥ by Victor Eñogwe

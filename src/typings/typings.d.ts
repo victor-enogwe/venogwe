@@ -4,6 +4,7 @@ import { CookieSerializeOptions } from 'next/dist/server/web/types';
 import { ReactNode } from 'react';
 import { PageSettings, Prefill, Utm } from 'react-calendly/typings/calendly';
 import { ReactCookieProps } from 'react-cookie';
+import { Merge } from 'type-fest';
 
 export type Theme = 'light' | 'dark';
 
@@ -11,7 +12,7 @@ export type Locales = 'en-US' | 'fr' | 'nl-NL';
 
 export type NavState = 'opened' | 'closed';
 
-export type VEProps<T = StaticProps> = StaticProps & T;
+export type VEProps<T = unknown> = Merge<StaticProps, T>;
 
 export type WithCookiesProps<T = Record<string, string>> = ReactCookieProps & T;
 

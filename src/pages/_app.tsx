@@ -6,7 +6,7 @@ import '@reach/skip-nav/styles.css';
 import { NextComponentType, NextPageContext } from 'next';
 import { Cookies, CookiesProvider } from 'react-cookie';
 
-export default function VictorEnogwe({
+export default function VictorEñogwe({
   Component,
   pageProps,
 }: {

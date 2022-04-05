@@ -55,7 +55,7 @@ declare module '@bootstrap-styled/provider' {
     UtilityProviderProps
   >;
 
-  class BootstrapProvider extends Component<
+  export class BootstrapProvider extends Component<
     BootstrapProviderProps,
     BootstrapProviderState
   > {
@@ -68,6 +68,9 @@ declare module '@bootstrap-styled/provider' {
 
     private windowPhone8Fix: () => void;
   }
+
+  BootstrapProvider.defaultProps = defaultProps;
+  BootstrapProvider.propTypes = propTypes;
 
   export default BootstrapProvider;
 }

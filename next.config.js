@@ -14,7 +14,7 @@ module.exports = withTM(['bootstrap-styled', '@bootstrap-styled/provider'])(
     },
     i18n: {
       locales: ['en-US', 'fr', 'nl-NL'],
-      defaultLocale: process.env.NEXT_PUBLIC_DEFAULT_LOCALE,
+      defaultLocale: process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? 'en-US',
     },
     pwa: {
       dest: 'public',

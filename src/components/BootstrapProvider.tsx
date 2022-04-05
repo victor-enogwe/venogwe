@@ -1,14 +1,15 @@
 import { LocalState, LocalStateKeys } from '@/typings/typings';
-import { DARK_THEME, LIGHT_THEME } from '@/utils/constants';
+import { DARK_THEME, LIGHT_THEME } from '@/utils/constants.client';
 import {
+  BootstrapProvider as Provider,
   BootstrapProviderProps,
-  defaultProps,
 } from '@bootstrap-styled/provider';
+import get from 'lodash.get';
 import { useCookies } from 'react-cookie';
 import { GlobalStyle } from './GlobalStyle';
 
 export function BootstrapProvider(
-  props: BootstrapProviderProps = defaultProps,
+  props: BootstrapProviderProps = get(Provider, `defaultProps`),
 ) {
   const [{ theme: colorScheme }] = useCookies<LocalStateKeys, LocalState>([
     `theme`,

@@ -1,4 +1,4 @@
-import { pageClasses } from '@/utils/constants';
+import { pageClasses } from '@/utils/constants.client';
 import { getServerSideProps } from '@/utils/functions';
 import { FaFilePdf } from '@react-icons/all-files/fa/FaFilePdf';
 import { Button, Row, Tab, Tabs } from 'react-bootstrap';
