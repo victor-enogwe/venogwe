@@ -1,6 +1,7 @@
-import { LocalState, LocalStateKeys, NavMenuProps } from '@/typings/typings';
+import { useGlobalState, useGlobalStateDispatch } from '@/contexts/GlobalState';
+import { NavMenuProps } from '@/typings/typings';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import {
   CloseButton,
   Nav,
@@ -9,22 +10,30 @@ import {
   OverlayTrigger,
   Tooltip,
 } from 'react-bootstrap';
-import { useCookies } from 'react-cookie';
 import { Head } from './Head';
 import { NavItems } from './NavItems';
 import Social from './Social';
 
 export function NavMenu({ siteName, items }: NavMenuProps): JSX.Element {
   const { events } = useRouter();
-  const [{ theme, navState = `closed` }, setCookie] = useCookies<
-    LocalStateKeys,
-    LocalState
-  >([`theme`, `navState`]);
+  const { colorScheme, navState } = useGlobalState([`colorScheme`, `navState`]);
+  const closeButtonVariant = useMemo(
+    () => (colorScheme === `dark` ? `white` : undefined),
+    [colorScheme],
+  );
+
+  const setGlobalState = useGlobalStateDispatch();
+  const onNavClose = useCallback(
+    () => setGlobalState({ type: `ToggleNavState`, payload: `closed` }),
+    [setGlobalState],
+  );
 
   useEffect(
     () =>
-      events.on(`routeChangeComplete`, () => setCookie(`navState`, `closed`)),
-    [navState, events, setCookie],
+      events.on(`routeChangeComplete`, () =>
+        setGlobalState({ type: `ToggleNavState`, payload: `closed` }),
+      ),
+    [navState, events, setGlobalState],
   );
 
   return (
@@ -34,18 +43,19 @@ export function NavMenu({ siteName, items }: NavMenuProps): JSX.Element {
       id="navigation"
       aria-labelledby="navigation"
       placement="top"
-      className={`bg-${theme} px-3`}
+      className={`bg-${colorScheme} px-4`}
+      tabIndex="-1"
     >
-      <Offcanvas.Header className="d-flex container h-100 justify-content-start justify-content-md-between">
+      <Offcanvas.Header className="d-flex container px-md-4 justify-content-start justify-content-md-between">
         <Navbar
-          bg={theme}
-          variant={theme}
+          bg={colorScheme}
+          variant={colorScheme}
           className="flex-column flex-sm-row flex-fill h-100 justify-content-end align-items-start align-items-sm-center col-11"
         >
           <Navbar.Brand className="flex-start">
             <Head siteName={siteName} />
           </Navbar.Brand>
-          <Navbar.Collapse className="flex-fill h-100 justify-content-sm-end me-sm-4">
+          <Navbar.Collapse className="flex-fill h-100 justify-content-sm-end">
             <Nav
               fill
               justify
@@ -64,10 +74,10 @@ export function NavMenu({ siteName, items }: NavMenuProps): JSX.Element {
             overlay={<Tooltip id="nav-close">close navigation</Tooltip>}
           >
             <CloseButton
-              variant={theme === `dark` ? `white` : undefined}
+              variant={closeButtonVariant}
               className="btn btn-lg justify-content-end"
               aria-label="close navigation"
-              onClick={() => setCookie(`navState`, `closed`)}
+              onClick={onNavClose}
             />
           </OverlayTrigger>
         </div>

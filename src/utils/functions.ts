@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Locales, LocalState, VEProps } from '@/typings/typings';
+import { Locales, PageProps, VEProps } from '@/typings/typings';
+import Cookies from 'js-cookie';
 import get from 'lodash.get';
+import merge from 'lodash.merge';
 import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
@@ -47,14 +49,23 @@ export function i18nMessageFallback({
 }
 
 export async function getStaticProps(context: GetStaticPropsContext): Promise<{
-  props: VEProps<{ cookies: LocalState }>;
+  props: VEProps<{ cookies: PageProps }>;
 }> {
   const siteName = get(process.env, `NEXT_PUBLIC_SITE_NAME`, ``);
-  const locales = get(context, `locales`, []) as Locales[];
+  const cookies = defaultState;
+  const locales = get(context, `locales`, [
+    `en-US`,
+    `fr`,
+    `nl-NL`,
+  ]) as Locales[];
+  const locale = cookies.locale ?? context?.locale;
+  const { default: translations } = await import(`@/i18n/${locale}.json`);
+
   const props = {
     locales,
     siteName,
-    cookies: defaultState,
+    cookies,
+    translations,
   };
 
   return Promise.resolve({ props });
@@ -74,7 +85,7 @@ export async function getServerSideProps(
   );
 
   return {
-    props: { ...props, cookies: { ...defaultState, ...req.cookies } },
+    props: { ...props, cookies: merge({}, defaultState, { ...req.cookies }) },
   };
 }
 
@@ -84,4 +95,12 @@ export async function getInitialProps(
   GetServerSidePropsResult<VEProps<{ cookies: NextApiRequestCookies }>>
 > {
   return getServerSideProps(context as unknown as GetServerSidePropsContext);
+}
+
+export function setCookie(key: keyof PageProps, value: PageProps[typeof key]) {
+  const ssr = typeof window === undefined;
+
+  if (ssr) return;
+
+  Cookies.set(key, value, { sameSite: `strict` });
 }

@@ -1,12 +1,13 @@
-import { createGlobalStyle, ThemedStyledProps } from 'styled-components';
+import { useTheme } from '@/contexts/Theme';
+import { BootstrapProviderProps } from '@bootstrap-styled/provider';
 import {
   getGlobalStyleNoBootstrapProvider,
   theme,
   UserTheme,
 } from 'bootstrap-styled';
-import { BootstrapProviderProps } from '@bootstrap-styled/provider';
+import { createGlobalStyle, ThemedStyledProps } from 'styled-components';
 
-export const GlobalStyle = createGlobalStyle<
+const GlobalStyleComponent = createGlobalStyle<
   Pick<BootstrapProviderProps, 'reset' | 'injectGlobal'>
 >`
   ${(
@@ -29,3 +30,7 @@ export const GlobalStyle = createGlobalStyle<
     }
   `}
 `;
+
+export function GlobalStyle() {
+  return <GlobalStyleComponent theme={useTheme()} reset injectGlobal />;
+}

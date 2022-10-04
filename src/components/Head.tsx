@@ -1,13 +1,11 @@
-import { LocalState, LocalStateKeys } from '@/typings/typings';
+import { useGlobalState } from '@/contexts/GlobalState';
 import classNames from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCookies } from 'react-cookie';
 import profilePic from '../../public/icon.png';
 
 export function Head({ siteName }: { siteName: string }) {
-  const [{ theme }] = useCookies<LocalStateKeys, LocalState>([`theme`]);
-  const altTheme = theme === `dark` ? `light` : `dark`;
+  const { altColorScheme } = useGlobalState([`colorScheme`]);
 
   return (
     <div
@@ -27,11 +25,12 @@ export function Head({ siteName }: { siteName: string }) {
           alt={`profile picture of ${siteName}`}
           width={48}
           height={48}
+          priority
         />
       </div>
       <Link href="/" passHref>
         <span className="d-flex text-decoration-none">
-          <div className={`d-flex flex-column text-${altTheme} fs-5`}>
+          <div className={`d-flex flex-column text-${altColorScheme} fs-5`}>
             <span>{siteName}</span>
             <span className="smaller fw-lighter fst-italic">
               <small className="small text-success">

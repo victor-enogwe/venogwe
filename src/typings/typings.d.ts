@@ -1,27 +1,44 @@
 import { GetStaticPropsContext } from 'next';
 import { DefaultSeoProps, NextSeoProps } from 'next-seo';
-import { CookieSerializeOptions } from 'next/dist/server/web/types';
 import { ReactNode } from 'react';
 import { PageSettings, Prefill, Utm } from 'react-calendly/typings/calendly';
-import { ReactCookieProps } from 'react-cookie';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Merge } from 'type-fest';
 
-export type Theme = 'light' | 'dark';
+export type ColorScheme = 'light' | 'dark';
 
 export type Locales = 'en-US' | 'fr' | 'nl-NL';
 
 export type NavState = 'opened' | 'closed';
 
-export type VEProps<T = unknown> = Merge<StaticProps, T>;
+export interface SSRProps {
+  locales: Locales[];
+  siteName: string;
+  translations: Record<string, Record<string, string>>;
+}
 
-export type WithCookiesProps<T = Record<string, string>> = ReactCookieProps & T;
+export interface PageProps {
+  colorScheme: ColorScheme;
+  altColorScheme: ColorScheme;
+  locale: Locales;
+  navState: NavState;
+}
 
-export type LocalStateKeys = keyof LocalState;
+export type VEProps<T = unknown> = Merge<SSRProps, T>;
+
+interface Action<T = string, P = unknown> {
+  type: T;
+  payload: P;
+}
+
+export type SwitchLocaleAction = Action<'SwitchLocale', Locales>;
+export type ToggleColorSchemeAction = Action<'ToggleColorScheme', ColorScheme>;
+export type ToggleNavStateAction = Action<'ToggleNavState', NavState>;
 
 export type CombinedActions =
   | SwitchLocaleAction
-  | ToggleThemeAction
-  | ResetAction;
+  | ToggleColorSchemeAction
+  | ToggleNavStateAction;
 
 export interface LayoutProps {
   children?: ReactNode;
@@ -46,7 +63,7 @@ export interface NavItem {
   children?: NavItem[];
 }
 
-export interface NavMenuProps extends Pick<StaticProps, 'siteName'> {
+export interface NavMenuProps extends Pick<SSRProps, 'siteName'> {
   items: NavItem[];
 }
 
@@ -57,23 +74,7 @@ export interface CalendlySettings {
   utm?: Utm;
 }
 
-export interface LocalState {
-  theme: Theme;
-  locale: Locales;
-  navState: NavState;
-}
-
-export interface StaticProps {
-  locales: Locales[];
-  siteName: string;
-}
-
-export interface CookieStatic {
-  get: (key: string) => string | null;
-  set: (
-    name: string,
-    value: string,
-    attributes?: CookieSerializeOptions,
-  ) => void;
-  expire: (key: string, options?: CookieSerializeOptions) => void;
-}
+export type GlobalStateDispatchFunction = (
+  name: Exclude<keyof PageProps, 'altColorScheme'>,
+  value: PageProps[typeof name],
+) => void;

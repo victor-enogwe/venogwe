@@ -4,10 +4,10 @@ import { Row } from 'react-bootstrap';
 
 export { getServerSideProps };
 
-export default function Resume(): JSX.Element {
+export default function Projects(): JSX.Element {
   return (
     <main className={`${pageClasses}`}>
-      <Row className="flex-grow-1 p-4">Resume</Row>
+      <Row className="flex-grow-1 p-4">Projects</Row>
     </main>
   );
 }

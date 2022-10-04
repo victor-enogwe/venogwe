@@ -1,8 +1,9 @@
-import { Button } from 'react-bootstrap';
 import { FaGithub } from '@react-icons/all-files/fa/FaGithub';
+import { Button } from 'react-bootstrap';
 
 export function Footer(): JSX.Element {
   const date = new Date();
+
   return (
     <footer className="d-flex container-fluid flex-row align-items-center">
       &copy; {date.getFullYear().toString()}

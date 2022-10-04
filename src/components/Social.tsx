@@ -1,11 +1,12 @@
-import Link from 'next/link';
-import { openPopupWidget } from 'react-calendly';
-import { Button, ButtonGroup } from 'react-bootstrap';
-import { FiTwitter } from '@react-icons/all-files/fi/FiTwitter';
-import { SiGmail } from '@react-icons/all-files/si/SiGmail';
+import { CalendlySettings } from '@/typings/typings';
 import { FaLinkedinIn } from '@react-icons/all-files/fa/FaLinkedinIn';
 import { FaRegCalendarCheck } from '@react-icons/all-files/fa/FaRegCalendarCheck';
-import { CalendlySettings } from '@/typings/typings';
+import { FiTwitter } from '@react-icons/all-files/fi/FiTwitter';
+import { SiGmail } from '@react-icons/all-files/si/SiGmail';
+import Link from 'next/link';
+import { useCallback, useMemo } from 'react';
+import { Button, ButtonGroup } from 'react-bootstrap';
+import { openPopupWidget } from 'react-calendly';
 
 export default function Social({
   siteName,
@@ -14,18 +15,26 @@ export default function Social({
   siteName: string;
   className?: string;
 }): JSX.Element {
-  const calendlySettings: CalendlySettings = {
-    url: process.env.NEXT_PUBLIC_CALENDLY_URL ?? ``,
-    pageSettings: {
-      backgroundColor: `#030303`,
-      primaryColor: `#999`,
-      textColor: `#fff`,
-    },
-    prefill: {
-      customAnswers: {},
-      date: new Date(Date.now() + 86400000),
-    },
-  };
+  const calendlySettings: CalendlySettings = useMemo(
+    () => ({
+      url: process.env.NEXT_PUBLIC_CALENDLY_URL ?? ``,
+      pageSettings: {
+        backgroundColor: `#030303`,
+        primaryColor: `#999`,
+        textColor: `#fff`,
+      },
+      prefill: {
+        customAnswers: {},
+        date: new Date(Date.now() + 86400000),
+      },
+    }),
+    [],
+  );
+
+  const onCalendlyOpen = useCallback(
+    () => openPopupWidget(calendlySettings),
+    [calendlySettings],
+  );
 
   return (
     <div className={className}>
@@ -92,7 +101,7 @@ export default function Social({
           <Button
             variant="info"
             aria-label="calendly meetings"
-            onClick={() => openPopupWidget(calendlySettings)}
+            onClick={onCalendlyOpen}
             className=" ms-1"
           >
             <FaRegCalendarCheck title="calendly icon" /> Calendly

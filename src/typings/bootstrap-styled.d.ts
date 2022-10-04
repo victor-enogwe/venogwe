@@ -55,18 +55,17 @@ declare module '@bootstrap-styled/provider' {
     UtilityProviderProps
   >;
 
+  // eslint-disable-next-line react/prefer-stateless-function
   export class BootstrapProvider extends Component<
     BootstrapProviderProps,
     BootstrapProviderState
   > {
-    private setTheme: (
-      userTheme: { theme: UserTheme },
-      callback?: function,
-    ) => void;
-
-    private makeTheme: (userTheme: { theme: UserTheme }) => Theme;
-
-    private windowPhone8Fix: () => void;
+    // private setTheme: (
+    //   userTheme: { theme: UserTheme },
+    //   callback?: function,
+    // ) => void;
+    // private makeTheme: (userTheme: { theme: UserTheme }) => Theme;
+    // private windowPhone8Fix: () => void;
   }
 
   BootstrapProvider.defaultProps = defaultProps;
@@ -1252,7 +1251,7 @@ declare module 'bootstrap-styled' {
 declare module '@bootstrap-styled/v4' {
   import { TransitionProps } from 'react-transition-group/Transition';
 
-  export { getGlobalStyles, getGlobalStyleNoBootstrapProvider };
+  // export { getGlobalStyles, getGlobalStyleNoBootstrapProvider };
 
   // 1. Atoms
 

@@ -2,7 +2,7 @@
 import { NavItem } from '@/typings/typings';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 import { Nav, NavDropdown } from 'react-bootstrap';
 
 export function NavItems({
@@ -13,7 +13,10 @@ export function NavItems({
   isParent: boolean;
 }) {
   const { route } = useRouter();
-  const Wrapper = isParent ? Nav.Item : NavDropdown.Item;
+  const Wrapper = useMemo(
+    () => (isParent ? Nav.Item : NavDropdown.Item),
+    [isParent],
+  );
 
   return (
     <>
@@ -23,24 +26,18 @@ export function NavItems({
             <Wrapper as="li" className="text-start">
               <Link href={url ?? `#`} passHref>
                 <Nav.Link
-                  className="d-flex flex-column"
+                  className="d-flex flex-column mx-md-2 my-2"
                   active={route === url}
                   title={description ?? title}
                   href={url ?? `#`}
                 >
                   {title}
-                  {description.length > 0 ? (
-                    <small>{description}</small>
-                  ) : (
-                    <></>
-                  )}
+                  {description.length > 0 ? <small>{description}</small> : null}
                   {children.length > 0 ? (
                     <NavDropdown title={title}>
                       <NavItems items={children} isParent={false} />
                     </NavDropdown>
-                  ) : (
-                    <></>
-                  )}
+                  ) : null}
                 </Nav.Link>
               </Link>
             </Wrapper>

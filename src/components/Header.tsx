@@ -1,25 +1,31 @@
+import { useGlobalState, useGlobalStateDispatch } from '@/contexts/GlobalState';
 import styles from '@/styles/header.module.scss';
-import {
-  LocalState,
-  LocalStateKeys,
-  VEProps,
-  WithCookiesProps,
-} from '@/typings/typings';
+import { ColorScheme, SSRProps } from '@/typings/typings';
 import { BsFillBrightnessHighFill } from '@react-icons/all-files/bs/BsFillBrightnessHighFill';
 import { BsMoon } from '@react-icons/all-files/bs/BsMoon';
 import classNames from 'classnames';
+import { MouseEvent, useCallback } from 'react';
 import { Button, ButtonGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { useCookies } from 'react-cookie';
 import { Head } from './Head';
 
-export function Header({
-  siteName,
-}: WithCookiesProps<Pick<VEProps, 'siteName'>>): JSX.Element {
-  const [{ theme }, setCookie] = useCookies<LocalStateKeys, LocalState>([
-    `theme`,
-    `navState`,
+export function Header({ siteName }: Pick<SSRProps, 'siteName'>): JSX.Element {
+  const { colorScheme, altColorScheme } = useGlobalState([
+    `colorScheme`,
+    `altColorScheme`,
   ]);
-  const altTheme = theme === `dark` ? `light` : `dark`;
+  const setGlobalState = useGlobalStateDispatch();
+  const onColorSchemeChange = useCallback(
+    (e: MouseEvent<HTMLButtonElement>) =>
+      setGlobalState({
+        type: `ToggleColorScheme`,
+        payload: e.currentTarget.dataset.altColorScheme as ColorScheme,
+      }),
+    [setGlobalState],
+  );
+  const onNavOpen = useCallback(
+    () => setGlobalState({ type: `ToggleNavState`, payload: `opened` }),
+    [setGlobalState],
+  );
 
   return (
     <header
@@ -38,22 +44,25 @@ export function Header({
         <OverlayTrigger
           placement="top"
           overlay={
-            <Tooltip id={`${altTheme}-mode`}>switch to {altTheme} mode</Tooltip>
+            <Tooltip id={`${altColorScheme}-mode`}>
+              switch to {altColorScheme} mode
+            </Tooltip>
           }
         >
           <Button
             variant=""
-            className={`text-${altTheme}`}
+            data-alt-color-scheme={altColorScheme}
+            className={`text-${altColorScheme}`}
             aria-label="Switch Theme"
-            onClick={() => setCookie(`theme`, altTheme)}
+            onClick={onColorSchemeChange}
           >
-            {theme === `light` ? (
+            {colorScheme === `light` ? (
               <BsFillBrightnessHighFill
-                color={altTheme}
+                color={altColorScheme}
                 title="light theme switch icon"
               />
             ) : (
-              <BsMoon color={altTheme} title="dark theme switch icon" />
+              <BsMoon color={altColorScheme} title="dark theme switch icon" />
             )}
           </Button>
         </OverlayTrigger>
@@ -86,20 +95,20 @@ export function Header({
               data-bs-toggle="navigation"
               data-bs-target="#navigation"
               aria-controls="navigation"
-              onClick={() => setCookie(`navState`, `opened`)}
+              onClick={onNavOpen}
             >
               <div
                 className={classNames({
                   [styles.line]: true,
                   [styles.start]: true,
-                  [`bg-${altTheme}`]: true,
+                  [`bg-${altColorScheme}`]: true,
                   'w-50': true,
                 })}
               />
               <div
                 className={classNames({
                   [styles.line]: true,
-                  [`bg-${altTheme}`]: true,
+                  [`bg-${altColorScheme}`]: true,
                   'w-100': true,
                 })}
               />
@@ -107,7 +116,7 @@ export function Header({
                 className={classNames({
                   [styles.line]: true,
                   [styles.end]: true,
-                  [`bg-${altTheme}`]: true,
+                  [`bg-${altColorScheme}`]: true,
                   'w-50': true,
                 })}
               />

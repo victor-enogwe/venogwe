@@ -1,19 +1,17 @@
+import { useGlobalState } from '@/contexts/GlobalState';
 import styles from '@/styles/404.module.scss';
-import { LocalState, LocalStateKeys } from '@/typings/typings';
 import { pageClasses } from '@/utils/constants.client';
 import { getStaticProps } from '@/utils/functions';
 import { FaGhost } from '@react-icons/all-files/fa/FaGhost';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Button, Col, Row } from 'react-bootstrap';
-import { useCookies } from 'react-cookie';
 
 export { getStaticProps };
 
 export default function Error404(): JSX.Element {
   const { route } = useRouter();
-  const [{ theme }] = useCookies<LocalStateKeys, LocalState>([`theme`]);
-  const altTheme = theme === `dark` ? `light` : `dark`;
+  const { altColorScheme } = useGlobalState([`altColorScheme`]);
 
   return (
     <main
@@ -30,7 +28,7 @@ export default function Error404(): JSX.Element {
               />
             </div>
             <h2
-              className={`d-flex flex-column text-${altTheme} text-wrap display-1`}
+              className={`d-flex flex-column text-${altColorScheme} text-wrap display-1`}
             >
               404
             </h2>
