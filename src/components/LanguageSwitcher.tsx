@@ -1,10 +1,10 @@
 import { useGlobalState, useGlobalStateDispatch } from '@/contexts/GlobalState';
-import { Locales, VEProps } from '@/typings/typings';
+import { useSSRProps } from '@/contexts/SSRProps';
+import { Locales } from '@/typings/typings';
 import { ChangeEvent, useCallback } from 'react';
 
-export function LanguageSwitcher({
-  locales,
-}: Pick<VEProps, 'locales'>): JSX.Element {
+export function LanguageSwitcher(): JSX.Element {
+  const { locales } = useSSRProps([`locales`]);
   const { colorScheme, altColorScheme, locale } = useGlobalState([
     `colorScheme`,
     `altColorScheme`,

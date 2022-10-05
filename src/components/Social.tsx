@@ -1,23 +1,27 @@
-import { CalendlySettings } from '@/typings/typings';
-import { FaLinkedinIn } from '@react-icons/all-files/fa/FaLinkedinIn';
-import { FaRegCalendarCheck } from '@react-icons/all-files/fa/FaRegCalendarCheck';
-import { FiTwitter } from '@react-icons/all-files/fi/FiTwitter';
-import { SiGmail } from '@react-icons/all-files/si/SiGmail';
+import { useSSRProps } from '@/contexts/SSRProps';
 import Link from 'next/link';
-import { useCallback, useMemo } from 'react';
-import { Button, ButtonGroup } from 'react-bootstrap';
-import { openPopupWidget } from 'react-calendly';
+import { useMemo } from 'react';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import { PopupButton } from 'react-calendly';
+import { FaLinkedinIn, FaRegCalendarCheck } from 'react-icons/fa';
+import { FiTwitter } from 'react-icons/fi';
+import { SiGmail } from 'react-icons/si';
 
 export default function Social({
-  siteName,
   className,
 }: {
-  siteName: string;
   className?: string;
 }): JSX.Element {
-  const calendlySettings: CalendlySettings = useMemo(
+  const { siteName } = useSSRProps([`siteName`]);
+  const calendlySettings: any = useMemo(
     () => ({
       url: process.env.NEXT_PUBLIC_CALENDLY_URL ?? ``,
+      text: (
+        <>
+          <FaRegCalendarCheck title="calendly icon" /> Calendly
+        </>
+      ),
       pageSettings: {
         backgroundColor: `#030303`,
         primaryColor: `#999`,
@@ -31,17 +35,12 @@ export default function Social({
     [],
   );
 
-  const onCalendlyOpen = useCallback(
-    () => openPopupWidget(calendlySettings),
-    [calendlySettings],
-  );
-
   return (
     <div className={className}>
       <h2 className="d-flex flex-column align-items-md-end text-success fs-3 fw-bold text-wrap">
         Let&apos;s Connect
       </h2>
-      <p className="d-flex flex-column align-items-md-end my-3">
+      <p className="lead d-none flex-column d-md-flex align-items-md-end my-3">
         You can reach me via:
       </p>
       <div className="d-flex flex-column align-items-md-end mb-2">
@@ -98,14 +97,13 @@ export default function Social({
               </Button>
             </a>
           </Link>
-          <Button
-            variant="info"
+          {/* add error boundary here - external code */}
+          <PopupButton
+            {...calendlySettings}
             aria-label="calendly meetings"
-            onClick={onCalendlyOpen}
-            className=" ms-1"
-          >
-            <FaRegCalendarCheck title="calendly icon" /> Calendly
-          </Button>
+            // onClick={onCalendlyOpen}
+            className="d-flex align-items-center btn btn-info ms-1"
+          />
         </ButtonGroup>
       </div>
     </div>

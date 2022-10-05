@@ -6,17 +6,16 @@ import {
   ToggleColorSchemeAction,
   ToggleNavStateAction,
 } from '@/typings/typings';
+import { SSR } from '@/utils/constants';
 import { setCookie } from '@/utils/functions';
 
 function localeReducer(
   state: PageProps,
   action: SwitchLocaleAction,
 ): PageProps {
-  const ssr = typeof window === undefined;
-
   setCookie(`locale`, action.payload);
 
-  if (!ssr) window.location.reload();
+  if (!SSR) window.location.reload();
 
   return { ...state, locale: action.payload };
 }

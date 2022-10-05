@@ -2,10 +2,12 @@ import { useGlobalState } from '@/contexts/GlobalState';
 import styles from '@/styles/404.module.scss';
 import { pageClasses } from '@/utils/constants.client';
 import { getStaticProps } from '@/utils/functions';
-import { FaGhost } from '@react-icons/all-files/fa/FaGhost';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Button, Col, Row } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import { FaGhost } from 'react-icons/fa';
 
 export { getStaticProps };
 

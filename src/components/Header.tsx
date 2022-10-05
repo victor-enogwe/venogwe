@@ -1,14 +1,16 @@
 import { useGlobalState, useGlobalStateDispatch } from '@/contexts/GlobalState';
 import styles from '@/styles/header.module.scss';
-import { ColorScheme, SSRProps } from '@/typings/typings';
-import { BsFillBrightnessHighFill } from '@react-icons/all-files/bs/BsFillBrightnessHighFill';
-import { BsMoon } from '@react-icons/all-files/bs/BsMoon';
+import { ColorScheme } from '@/typings/typings';
 import classNames from 'classnames';
 import { MouseEvent, useCallback } from 'react';
-import { Button, ButtonGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+import { BsFillBrightnessHighFill, BsMoon } from 'react-icons/bs';
 import { Head } from './Head';
 
-export function Header({ siteName }: Pick<SSRProps, 'siteName'>): JSX.Element {
+export function Header(): JSX.Element {
   const { colorScheme, altColorScheme } = useGlobalState([
     `colorScheme`,
     `altColorScheme`,
@@ -39,7 +41,7 @@ export function Header({ siteName }: Pick<SSRProps, 'siteName'>): JSX.Element {
         'px-2': true,
       })}
     >
-      <Head siteName={siteName} />
+      <Head />
       <ButtonGroup aria-label="Menu Actions">
         <OverlayTrigger
           placement="top"

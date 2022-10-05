@@ -1,5 +1,5 @@
-import { FaGithub } from '@react-icons/all-files/fa/FaGithub';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import { FaGithub } from 'react-icons/fa';
 
 export function Footer(): JSX.Element {
   const date = new Date();

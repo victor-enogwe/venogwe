@@ -1,3 +1,4 @@
+import { PostOrPage, PostsOrPages } from '@tryghost/content-api';
 import { GetStaticPropsContext } from 'next';
 import { DefaultSeoProps, NextSeoProps } from 'next-seo';
 import { ReactNode } from 'react';
@@ -14,7 +15,13 @@ export type NavState = 'opened' | 'closed';
 export interface SSRProps {
   locales: Locales[];
   siteName: string;
+  headline: string;
   translations: Record<string, Record<string, string>>;
+  error?: string;
+  posts?: PostsOrPages;
+  post?: PostOrPage;
+  pages?: PostsOrPages;
+  page?: PostOrPage;
 }
 
 export interface PageProps {
@@ -63,7 +70,7 @@ export interface NavItem {
   children?: NavItem[];
 }
 
-export interface NavMenuProps extends Pick<SSRProps, 'siteName'> {
+export interface NavMenuProps {
   items: NavItem[];
 }
 

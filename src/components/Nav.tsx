@@ -2,19 +2,17 @@ import { useGlobalState, useGlobalStateDispatch } from '@/contexts/GlobalState';
 import { NavMenuProps } from '@/typings/typings';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo } from 'react';
-import {
-  CloseButton,
-  Nav,
-  Navbar,
-  Offcanvas,
-  OverlayTrigger,
-  Tooltip,
-} from 'react-bootstrap';
+import CloseButton from 'react-bootstrap/CloseButton';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 import { Head } from './Head';
 import { NavItems } from './NavItems';
 import Social from './Social';
 
-export function NavMenu({ siteName, items }: NavMenuProps): JSX.Element {
+export function NavMenu({ items }: NavMenuProps): JSX.Element {
   const { events } = useRouter();
   const { colorScheme, navState } = useGlobalState([`colorScheme`, `navState`]);
   const closeButtonVariant = useMemo(
@@ -53,7 +51,7 @@ export function NavMenu({ siteName, items }: NavMenuProps): JSX.Element {
           className="flex-column flex-sm-row flex-fill h-100 justify-content-end align-items-start align-items-sm-center col-11"
         >
           <Navbar.Brand className="flex-start">
-            <Head siteName={siteName} />
+            <Head />
           </Navbar.Brand>
           <Navbar.Collapse className="flex-fill h-100 justify-content-sm-end">
             <Nav
@@ -66,7 +64,7 @@ export function NavMenu({ siteName, items }: NavMenuProps): JSX.Element {
               <NavItems items={items} isParent />
             </Nav>
           </Navbar.Collapse>
-          <Social className="d-sm-none" siteName={siteName} />
+          <Social className="d-sm-none" />
         </Navbar>
         <div className="d-flex flex-fill flex-grow-1 justify-content-end align-self-sm-start align-items-sm-center h-100">
           <OverlayTrigger

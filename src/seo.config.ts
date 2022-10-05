@@ -36,16 +36,12 @@ export const seoConfig: SEOConfig = {
       cardType: `summary_large_image`,
     },
   },
-  '/resume': {
-    title: `My Resume - Victor Eñogwe`,
-    description: `work experience, projects, community service and hobbies`,
-  },
-  '/portfolio': {
-    title: `My Portfolio - Victor Eñogwe`,
+  '/projects': {
+    title: `Projects - Victor Eñogwe`,
     description: `tools and projects I've built`,
   },
-  '/blog': {
-    title: `Personal Blog - Victor Eñogwe`,
+  '/articles': {
+    title: `Articles - Victor Eñogwe`,
     description: `journal of knowledge and experience gained over time`,
   },
   [`/404`]: {

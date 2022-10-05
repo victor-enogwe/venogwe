@@ -1,10 +1,12 @@
 import { useGlobalState } from '@/contexts/GlobalState';
+import { useSSRProps } from '@/contexts/SSRProps';
 import classNames from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
 import profilePic from '../../public/icon.png';
 
-export function Head({ siteName }: { siteName: string }) {
+export function Head() {
+  const { siteName, headline } = useSSRProps([`siteName`, `headline`]);
   const { altColorScheme } = useGlobalState([`colorScheme`]);
 
   return (
@@ -33,9 +35,7 @@ export function Head({ siteName }: { siteName: string }) {
           <div className={`d-flex flex-column text-${altColorScheme} fs-5`}>
             <span>{siteName}</span>
             <span className="smaller fw-lighter fst-italic">
-              <small className="small text-success">
-                Software Engineer (Web)
-              </small>
+              <small className="small text-success">{headline}</small>
             </span>
           </div>
         </span>

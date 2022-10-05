@@ -28,6 +28,8 @@ main {
 
 .lead-text {
   width: 97%;
+  word-wrap: none;
+  word-break: keep-all;
 }
 
 .btn:focus {

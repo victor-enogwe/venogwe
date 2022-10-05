@@ -3,14 +3,22 @@ import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { NavMenu } from '@/components/Nav';
-import { TranslationsContext } from '@/contexts';
+import {
+  ArticlesContext,
+  PageContext,
+  PagesContext,
+  PostContext,
+  SSRPropsContext,
+  TranslationsContext,
+} from '@/contexts';
 import { GlobalStateProvider } from '@/contexts/GlobalState';
 import { menuItems } from '@/menu.config';
 import { PageProps, SSRProps, VEProps } from '@/typings/typings';
 import { SkipNavContent, SkipNavLink } from '@reach/skip-nav';
 import '@reach/skip-nav/styles.css';
 import { NextComponentType, NextPageContext } from 'next';
-import { Container } from 'react-bootstrap';
+import NextProgress from 'nextjs-progressbar';
+import Container from 'react-bootstrap/Container';
 import { GlobalStyle } from './GlobalStyle';
 import { Intl } from './Intl';
 import { SEO } from './SEO';
@@ -22,34 +30,47 @@ export function Main({
 }: {
   ssrProps: SSRProps;
   pageProps: PageProps;
-  Component: NextComponentType<NextPageContext, VEProps, SSRProps>;
+  Component: NextComponentType<NextPageContext, VEProps, Record<string, never>>;
 }) {
-  const { locales, siteName } = ssrProps;
-
+  const { posts, pages, post, page, ...props } = ssrProps;
   return (
-    <GlobalStateProvider pageProps={pageProps}>
-      <GlobalStyle />
-      <SEO>
-        <TranslationsContext.Provider value={ssrProps.translations}>
-          <Intl>
-            <Container className="d-flex flex-column p-3 position-relative">
-              <SkipNavLink />
+    <SSRPropsContext.Provider value={props}>
+      <GlobalStateProvider pageProps={pageProps}>
+        <GlobalStyle />
+        <ArticlesContext.Provider value={posts}>
+          <PagesContext.Provider value={pages}>
+            <PostContext.Provider value={post}>
+              <PageContext.Provider value={page}>
+                <SEO>
+                  <TranslationsContext.Provider value={ssrProps.translations}>
+                    <Intl>
+                      <NextProgress color="#33d06c" />
+                      <Container
+                        id="root-container"
+                        className="d-flex flex-column p-3 position-relative"
+                      >
+                        <SkipNavLink />
 
-              <Header siteName={siteName} />
+                        <Header />
 
-              <LanguageSwitcher locales={locales} />
+                        <LanguageSwitcher />
 
-              <NavMenu siteName={siteName} items={menuItems} />
+                        <NavMenu items={menuItems} />
 
-              <SkipNavContent />
+                        <SkipNavContent />
 
-              <Component {...ssrProps} />
+                        <Component />
 
-              <Footer />
-            </Container>
-          </Intl>
-        </TranslationsContext.Provider>
-      </SEO>
-    </GlobalStateProvider>
+                        <Footer />
+                      </Container>
+                    </Intl>
+                  </TranslationsContext.Provider>
+                </SEO>
+              </PageContext.Provider>
+            </PostContext.Provider>
+          </PagesContext.Provider>
+        </ArticlesContext.Provider>
+      </GlobalStateProvider>
+    </SSRPropsContext.Provider>
   );
 }

@@ -3,7 +3,8 @@ import { NavItem } from '@/typings/typings';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Fragment, useMemo } from 'react';
-import { Nav, NavDropdown } from 'react-bootstrap';
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 export function NavItems({
   items,

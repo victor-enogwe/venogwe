@@ -13,7 +13,7 @@ import {
 import { IntlError, IntlErrorCode } from 'next-intl';
 import { NextApiRequestCookies } from 'next/dist/server/api-utils';
 import { ParsedUrlQuery } from 'querystring';
-import { defaultState } from './constants';
+import { defaultState, SSR } from './constants';
 
 export async function getStaticPaths(): Promise<
   GetStaticPathsResult<ParsedUrlQuery>
@@ -52,23 +52,25 @@ export async function getStaticProps(context: GetStaticPropsContext): Promise<{
   props: VEProps<{ cookies: PageProps }>;
 }> {
   const siteName = get(process.env, `NEXT_PUBLIC_SITE_NAME`, ``);
+  const headline = get(process.env, `NEXT_PUBLIC_SITE_HEADLINE`, ``);
   const cookies = defaultState;
   const locales = get(context, `locales`, [
     `en-US`,
     `fr`,
     `nl-NL`,
   ]) as Locales[];
-  const locale = cookies.locale ?? context?.locale;
+  const locale = cookies.locale ?? context?.locale ?? `en-US`;
   const { default: translations } = await import(`@/i18n/${locale}.json`);
 
   const props = {
     locales,
     siteName,
+    headline,
     cookies,
     translations,
   };
 
-  return Promise.resolve({ props });
+  return { props };
 }
 
 export async function getServerSideProps(
@@ -98,9 +100,7 @@ export async function getInitialProps(
 }
 
 export function setCookie(key: keyof PageProps, value: PageProps[typeof key]) {
-  const ssr = typeof window === undefined;
-
-  if (ssr) return;
+  if (SSR) return;
 
   Cookies.set(key, value, { sameSite: `strict` });
 }

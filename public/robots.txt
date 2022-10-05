@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: undefined
+Host: https://victorenogwe.me/
 
 # Sitemaps
-Sitemap: undefined/sitemap.xml
+Sitemap: https://victorenogwe.me/sitemap.xml

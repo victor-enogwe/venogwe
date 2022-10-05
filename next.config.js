@@ -24,9 +24,13 @@ module.exports = withTM(['bootstrap-styled', '@bootstrap-styled/provider'])(
       fallbacks: {
         image: '/100x100.png',
       },
-      publicExcludes: ['!robots.txt', '!sitemap.xml'],
+      publicExcludes: ['!robots.txt', '!sitemap.xml', 'sitemap-0.xml'],
     },
-    experimental: { optimizeCss: true, optimizeImages: true },
+    experimental: {
+      optimizeCss: true,
+      optimizeImages: true,
+      forceSwcTransforms: true,
+    },
     compiler: {
       styledComponents: true,
       removeConsole: true,

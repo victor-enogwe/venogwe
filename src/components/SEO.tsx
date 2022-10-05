@@ -9,6 +9,7 @@ import { PropsWithChildren, useMemo } from 'react';
 export function SEO<P>({ children }: PropsWithChildren<P>) {
   const { route } = useRouter();
   const theme = useTheme();
+  // post seo
 
   const bgColor = theme[`$body-bg`];
 
